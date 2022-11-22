@@ -25,7 +25,7 @@ class _searchBarState extends State<searchBar> {
               Container(
                 width: 322,
                 height: 80,
-                color: Colors.black,
+                color: Colors.transparent,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,

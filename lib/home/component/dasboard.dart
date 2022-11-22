@@ -4,13 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:wg_optical/home/slideFrame/frameA.dart';
-import 'package:wg_optical/home/slideFrame/frameB.dart';
+import 'package:wg_optical/home/screens/pageCart.dart';
+import 'package:wg_optical/home/screens/pageFrame.dart';
+import 'package:wg_optical/home/screens/pageLensa.dart';
+import 'package:wg_optical/home/screens/pageNotifications.dart';
+import 'package:wg_optical/home/screens/pageSet.dart';
+import 'package:wg_optical/home/slideFrame/infoSales.dart';
 import 'package:wg_optical/home/widget/searchBar.dart';
 import 'package:wg_optical/home/screens/detailFrame.dart';
+import 'package:wg_optical/pesanan_saya/screen/detailPesanan.dart';
 
 import '../../models/kacaMata_item.dart';
-import '../slideFrame/framePremium.dart';
 
 class dasboard extends StatefulWidget {
   const dasboard({super.key});
@@ -25,11 +29,8 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
   static const List<Widget> _widgetOptions = <Widget>[
-    frameA(),
-    frameB(),
-    framePremium()
+    pageSet(),
   ];
-  var anu = 0;
   late TabController tabController;
 
   @override
@@ -48,56 +49,229 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              //bagian search
-              searchBar(),
-              SizedBox(
-                height: 20,
-              ),
-              //bagian grade
-              Container(
-                width: screenWidth - 30.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildSizeButton('Grade A', 0),
-                    _buildSizeButton('Grade B', 1),
-                    _buildSizeButton('Premium', 2)
-                  ],
+    return Scaffold(
+      backgroundColor: Color(0xfff0f0f0),
+      appBar: AppBar(
+          backgroundColor: Color(0xfff0f0f0),
+          elevation: 0,
+          toolbarHeight: 70,
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 20, top: 20),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pageNotification(),
+                        ));
+                  },
+                  icon: Icon(
+                    Icons.alarm_add_outlined,
+                    color: Colors.black,
+                    size: 30,
+                  ))),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20, top: 20),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              // detailPesanan()
+                              pageCart(),
+                        ));
+                  },
+                  icon: Icon(
+                    Icons.card_travel_outlined,
+                    color: Colors.black,
+                    size: 30,
+                  )),
+            )
+          ]),
+      body: Column(
+        children: [
+          //bagian search
+          SizedBox(
+            height: 2,
+          ),
+          //bagian grade
+          infoSales(),
+          SizedBox(
+            height: 20,
+          ),
+          //bagian text pilih frame
+          Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Transaksi",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              //bagian text pilih frame
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 19, right: 220),
+                Text(
+                  "Pilih transaksi",
+                  style: TextStyle(
+                    color: Color(0xff9f9f9f),
+                    fontSize: 14,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Container(
+            width: (screenWidth / 2) + 149,
+            height: (screenHeight / 2) - 371,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(11),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3f000000),
+                  blurRadius: 4,
+                  offset: Offset(2, 2),
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
                   child: Text(
-                    "Pilih Frame yang tersedia",
+                    "Set",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                      color: Color(0xff343948),
+                      fontSize: 20,
                       fontFamily: "Montserrat",
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Container(
-                child: _widgetOptions.elementAt(counter),
-              )
-            ],
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pageSet(),
+                        ));
+                  },
+                )
+              ],
+            ),
           ),
-        ),
+          SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: (screenWidth / 2) + 149,
+            height: (screenHeight / 2) - 371,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(11),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3f000000),
+                  blurRadius: 4,
+                  offset: Offset(2, 2),
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pageFrame(),
+                        ));
+                  },
+                  child: Text(
+                    "Frame",
+                    style: TextStyle(
+                      color: Color(0xff343948),
+                      fontSize: 20,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: (screenWidth / 2) + 149,
+            height: (screenHeight / 2) - 371,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(11),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3f000000),
+                  blurRadius: 4,
+                  offset: Offset(2, 2),
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pageLensa(),
+                        ));
+                  },
+                  child: Text(
+                    "Lensa",
+                    style: TextStyle(
+                      color: Color(0xff343948),
+                      fontSize: 20,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: (screenHeight / 2) - 268,
+            width: (screenWidth / 2) + 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "Copyright @2022 Walyo Group IT Team. ALL Right Reserved",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0x7f000000),
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          )
+          // Container(
+          //   child: _widgetOptions.elementAt(counter),
+          // )
+        ],
       ),
     );
   }

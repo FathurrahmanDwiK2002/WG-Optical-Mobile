@@ -21,174 +21,280 @@ class _profileState extends State<profile> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: screenHeight,
-            width: screenWidth,
-            // color: Colors.amber,
-          ),
-          Container(
-              child: Container(
-            height: (screenHeight / 2) + 80.0,
-            width: screenWidth,
-            color: Colors.black,
-          )),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 65),
-                  child: Container(
-                    width: 283,
-                    height: 283,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(141.50),
-                      color: Colors.white,
-                    ),
+        backgroundColor: Color(0xfff0f0f0),
+        body: Column(
+          children: [
+            Container(
+              height: screenHeight / 3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        width: (screenWidth / 2) - 48,
+                        height: (screenHeight / 2) - 258,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(47),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x3f000000),
+                              blurRadius: 4,
+                              offset: Offset(3, 3),
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: screenHeight / 2,
-            child: Container(
-              width: screenWidth,
-              height: 528,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(56),
-                  topRight: Radius.circular(56),
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
-                ),
-                color: Colors.white,
+                ],
               ),
             ),
-          ),
-          Positioned(
-              top: screenHeight / 2 + 50.0,
-              child: Container(
-                height: screenHeight / 2 - 60.0,
-                width: screenWidth,
-                child: ListView(
-                  padding: EdgeInsets.only(left: 15.0),
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Deskripsi',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(height: 15.0),
-                        Container(
-                          height: 50.0,
-                          width: screenWidth - 30.0,
-                          child: Text(
-                            'menggunakan bahan alami karet serat yang ada di hutan kalimantan dan di cetak menggunakan cetakan yang dipilih langsung oleh dewa Odinson ex Asgardian dengan desain yang minimalis dan tentunya tidak membuang ciri chas kenyaman dari pengguna ',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 13.0),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Nama Panjang user ",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontFamily: "Montserrat",
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: screenHeight / 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        width: 330,
+                        height: 72,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(4),
+                            bottomRight: Radius.circular(4),
                           ),
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 17.0),
-                        Text(
-                          'Warna',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(height: 15.0),
-                        Container(
-                          width: screenWidth - 30.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildSizeButton('Hitam', 0),
-                              _buildSizeButton('Merah', 1),
-                              _buildSizeButton('Kuning', 2)
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 80.0),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  height: 50.0,
-                                  width: (screenWidth / 2) + 50.0,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                  child: Center(
-                                    child: Text('Lanjut',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                            fontSize: 17.0)),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Container(
+                                width: (screenWidth / 2) - 160,
+                                height: (screenHeight / 2) - 375,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: Color(0x66343948),
+                                    width: 1,
                                   ),
+                                  color: Colors.white,
                                 ),
                               ),
-                            ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "ID Karyawan",
+                                  style: TextStyle(
+                                    color: Color(0xff343948),
+                                    fontSize: 17,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Container(
+                                  width: 225,
+                                  child: Text(
+                                    "WGO1092739",
+                                    maxLines: 3,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      color: Color(0xff343948),
+                                      fontSize: 10,
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: 330,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Container(
+                            width: (screenWidth / 2) - 160,
+                            height: (screenHeight / 2) - 375,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Color(0x66343948),
+                                width: 1,
+                              ),
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        SizedBox(height: 5.0)
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Alamat",
+                              style: TextStyle(
+                                color: Color(0xff343948),
+                                fontSize: 17,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Container(
+                              width: 225,
+                              child: Text(
+                                "Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68121",
+                                maxLines: 3,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  color: Color(0xff343948),
+                                  fontSize: 10,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSizeButton(String title, int index) {
-    return AnimatedContainer(
-      duration: Duration(seconds: 4),
-      curve: Curves.easeIn,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        child: Container(
-          height: 40.0,
-          width: 100.0,
-          decoration: BoxDecoration(
-              color: index == selectedIndex ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              border: index == selectedIndex
-                  ? Border.all(
-                      color: Colors.white, style: BorderStyle.solid, width: 1.0)
-                  : Border.all(
-                      color: Colors.black,
-                      style: BorderStyle.solid,
-                      width: 0.2)),
-          child: Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: index == selectedIndex ? Colors.white : Colors.black,
-                  fontSize: 15.0),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: 330,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Container(
+                            width: (screenWidth / 2) - 160,
+                            height: (screenHeight / 2) - 375,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Color(0x66343948),
+                                width: 1,
+                              ),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Telepon",
+                              style: TextStyle(
+                                color: Color(0xff343948),
+                                fontSize: 17,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              "0892673271837193882",
+                              style: TextStyle(
+                                color: Color(0xff343948),
+                                fontSize: 10,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+            Container(
+              width: (screenWidth / 2) + 100,
+              height: (screenHeight / 3) - 230,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Color(0xff343948),
+                  width: 2,
+                ),
+                color: Color(0xfff0f0f0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "keluar",
+                    style: TextStyle(
+                      color: Color(0xff343948),
+                      fontSize: 18,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
 import 'package:wg_optical/home/screens/detailFrame.dart';
 import 'models/kacaMata_item.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+
+  await Hive.openBox('Data');
   runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WG Optical',

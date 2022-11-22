@@ -47,12 +47,12 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
       body: Center(
         child: _widgetOptions.elementAt(currentIndex),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff343948),
       bottomNavigationBar: Container(
         height: 80,
         width: 100,
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Color(0xff343948),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.15),
@@ -114,7 +114,7 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
   List<IconData> listOfIcons = [
     Icons.home_rounded,
     Icons.percent,
-    Icons.shopping_cart_outlined,
+    Icons.receipt_long,
     Icons.person_rounded,
   ];
 }
