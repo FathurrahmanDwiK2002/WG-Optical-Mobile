@@ -49,22 +49,26 @@ class _riwayatState extends State<riwayat> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
 
     return Scaffold(
       backgroundColor: Color(0xfff0f0f0),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 0,
-      ),
+      appBar: appbar,
       body: Column(
         children: [
           Container(
             child: Stack(
               children: [
                 Container(
-                  height: 50,
-                  width: screenWidth,
+                  height: heightPhone * 0.06,
                   // color: Colors.amber,
                 ),
                 Positioned(
@@ -132,11 +136,11 @@ class _riwayatState extends State<riwayat> {
           ),
           searchBar(),
           SizedBox(
-            height: 20.0,
+            height: heightPhone * 0.03,
           ),
           Container(
             width: 347,
-            height: 36,
+            height: heightPhone * 0.047,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               color: Color(0xff343948),
@@ -156,7 +160,7 @@ class _riwayatState extends State<riwayat> {
                       ),
                     ),
                   ),
-                  width: 250,
+                  width: screenWidth * 0.6,
                 ),
                 Container(
                   child: Padding(
@@ -177,7 +181,7 @@ class _riwayatState extends State<riwayat> {
             ),
           ),
           SizedBox(
-            height: 20.0,
+            height: heightPhone * 0.028,
           ),
           Container(
             width: screenWidth,
@@ -185,7 +189,7 @@ class _riwayatState extends State<riwayat> {
             color: Colors.white38,
           ),
           SizedBox(
-            height: 15,
+            height: heightPhone * 0.02,
           ),
           Container(
             width: 350,
