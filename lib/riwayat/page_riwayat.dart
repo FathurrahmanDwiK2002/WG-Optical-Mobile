@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_optical/home/widget/searchBar.dart';
+import 'package:wg_optical/pesanan_saya/screen/detailPesanan.dart';
 
 import '../models/kacaMata_item.dart';
 
@@ -20,27 +21,27 @@ class riwayat extends StatefulWidget {
 class _riwayatState extends State<riwayat> {
   final List<KacaMataItem> listKacaMata = [
     KacaMataItem(
-        Waktu: 'Riski Doer', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.232.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.560.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Riski Doer', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.540.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.220.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Riski Doer', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.200.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.560.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Riski Doer', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.700.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.560.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.100.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Riski Doer', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
+        Waktu: 'Rp.500.000', title: '#TR7265486', subtitle: 'Nama Pelanggan'),
     KacaMataItem(
-        Waktu: 'Rizal Sakne', title: '#TR7265486', subtitle: 'Nama Pelanggan')
+        Waktu: 'Rp.560.000', title: '#TR7265486', subtitle: 'Nama Pelanggan')
   ];
 
   int counter = 0;
@@ -192,94 +193,26 @@ class _riwayatState extends State<riwayat> {
             height: heightPhone * 0.02,
           ),
           Container(
-            width: 350,
-            height: (screenHeight / 2) - (-45),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x3f000000),
-                  blurRadius: 4,
-                  offset: Offset(2, 2),
-                ),
-              ],
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 30,
-                        ),
-                        child: Text(
-                          'Nama Customer & No Faktur ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      width: 150,
-                    ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 50),
-                        child: Text(
-                          "Waktu",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      width: 150,
-                    ),
-                  ],
-                ),
-                Container(
-                    // color: Colors.blue,
-                    height: (MediaQuery.of(context).size.height / 2) - 30,
-                    width: MediaQuery.of(context).size.width,
+              // color: Colors.blue,
+              height: heightPhone * 0.56,
+              width: MediaQuery.of(context).size.width,
+              child: ListView(
+                children: [
+                  Container(
+                    // color: Colors.amber,
+                    width: screenWidth,
+                    height: heightPhone * 0.53,
                     child: ListView(
-                      padding: EdgeInsets.only(
-                        top: 25.0,
-                      ),
+                      scrollDirection: Axis.vertical,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0, right: 15.0, bottom: 40),
-                          child: Container(
-                            // color: Colors.amber,
-                            width: MediaQuery.of(context).size.width - 10.0,
-                            height:
-                                (MediaQuery.of(context).size.height / 2) - 103,
-                            child: ListView(
-                              scrollDirection: Axis.vertical,
-                              children: [
-                                ...listKacaMata.map((e) {
-                                  return _listkacamata(e);
-                                }).toList()
-                              ],
-                            ),
-                          ),
-                        ),
+                        ...listKacaMata.map((e) {
+                          return _listkacamata(e);
+                        }).toList()
                       ],
-                    ))
-              ],
-            ),
-          )
+                    ),
+                  ),
+                ],
+              )),
         ],
       ),
     );
@@ -288,67 +221,92 @@ class _riwayatState extends State<riwayat> {
   Widget _listkacamata(KacaMataItem cItem) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
 
     return Padding(
-      padding: EdgeInsets.only(left: 10.0, right: 5.0, top: 5),
+      padding: EdgeInsets.only(
+        left: 5.0,
+        right: 5.0,
+      ),
       child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => detailPesanan(anu: cItem)));
+          // print(cItem.title.toString());
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          height: (screenHeight / 2) - 380,
+          height: heightPhone * 0.066,
           width: 120.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        cItem.subtitle!,
-                        style: TextStyle(
-                          fontFamily: "Montserrat",
-                          color: Colors.black,
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w600,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text(
+                            cItem.subtitle!,
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
+                        Container(
+                          child: Text(
+                            cItem.title!,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      cItem.Waktu!,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        cItem.title!,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.0,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 80.0),
-                child: Text(
-                  cItem.Waktu!,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w600,
-                  ),
+                  ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: heightPhone * 0.0073,
+                ),
+                SizedBox(
+                  width: screenWidth * 0.9,
+                  height: 1,
+                  child: Material(
+                    color: Color.fromARGB(255, 220, 220, 220),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
