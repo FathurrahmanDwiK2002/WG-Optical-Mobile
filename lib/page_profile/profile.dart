@@ -19,13 +19,23 @@ class _profileState extends State<profile> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Color(0xfff0f0f0),
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
 
     return Scaffold(
         backgroundColor: Color(0xfff0f0f0),
+        appBar: appbar,
         body: Column(
           children: [
             Container(
-              height: screenHeight / 3,
+              height: heightPhone * 0.35,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -53,7 +63,7 @@ class _profileState extends State<profile> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: heightPhone * 0.024,
             ),
             Text(
               "Nama Panjang user ",
@@ -65,10 +75,10 @@ class _profileState extends State<profile> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: heightPhone * 0.024,
             ),
             Container(
-              height: screenHeight / 3,
+              height: heightPhone * 0.36,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,7 +87,7 @@ class _profileState extends State<profile> {
                     children: [
                       Container(
                         width: 330,
-                        height: 72,
+                        height: heightPhone * 0.09,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
@@ -92,8 +102,8 @@ class _profileState extends State<profile> {
                             Padding(
                               padding: const EdgeInsets.only(left: 30),
                               child: Container(
-                                width: (screenWidth / 2) - 160,
-                                height: (screenHeight / 2) - 375,
+                                width: 47,
+                                height: 47,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   border: Border.all(
@@ -105,7 +115,7 @@ class _profileState extends State<profile> {
                               ),
                             ),
                             SizedBox(
-                              width: 20,
+                              width: screenWidth * 0.05,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,7 +131,7 @@ class _profileState extends State<profile> {
                                   ),
                                 ),
                                 Container(
-                                  width: 225,
+                                  width: screenWidth * 0.5,
                                   child: Text(
                                     "WGO1092739",
                                     maxLines: 3,
@@ -142,11 +152,11 @@ class _profileState extends State<profile> {
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    height: screenHeight * 0.006,
                   ),
                   Container(
                     width: 330,
-                    height: 72,
+                    height: heightPhone * 0.09,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: Colors.white,
@@ -156,8 +166,8 @@ class _profileState extends State<profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 30),
                           child: Container(
-                            width: (screenWidth / 2) - 160,
-                            height: (screenHeight / 2) - 375,
+                            width: 47,
+                            height: 47,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
@@ -169,7 +179,7 @@ class _profileState extends State<profile> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: screenHeight * 0.024,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +195,7 @@ class _profileState extends State<profile> {
                               ),
                             ),
                             Container(
-                              width: 225,
+                              width: heightPhone * 0.28,
                               child: Text(
                                 "Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68121",
                                 maxLines: 3,
@@ -204,11 +214,11 @@ class _profileState extends State<profile> {
                     ),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: screenHeight * 0.006,
                   ),
                   Container(
                     width: 330,
-                    height: 72,
+                    height: heightPhone * 0.09,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(4),
@@ -223,8 +233,8 @@ class _profileState extends State<profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 30),
                           child: Container(
-                            width: (screenWidth / 2) - 160,
-                            height: (screenHeight / 2) - 375,
+                            width: 47,
+                            height: 47,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
@@ -269,8 +279,8 @@ class _profileState extends State<profile> {
               ),
             ),
             Container(
-              width: (screenWidth / 2) + 100,
-              height: (screenHeight / 3) - 230,
+              width: screenWidth * 0.74,
+              height: heightPhone * 0.065,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(

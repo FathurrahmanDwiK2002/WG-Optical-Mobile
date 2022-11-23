@@ -32,9 +32,11 @@ class _infoSalesState extends State<infoSales> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-        height: (MediaQuery.of(context).size.height / 2) - 179,
-        width: MediaQuery.of(context).size.width,
+        height: screenHeight * 0.29,
+        width: screenWidth * 1,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
