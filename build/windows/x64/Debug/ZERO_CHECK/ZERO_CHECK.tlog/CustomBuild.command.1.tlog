@@ -1,0 +1,10 @@
+^F:\PROJECT\WG_OPTICAL\WG-OPTICAL-MOBILE\BUILD\WINDOWS\CMAKEFILES\37F54C85995C17804DBA73F7FEE3E595\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SF:/Project/Wg_Optical/WG-Optical-Mobile/windows -BF:/Project/Wg_Optical/WG-Optical-Mobile/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file F:/Project/Wg_Optical/WG-Optical-Mobile/build/windows/wg_optical.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

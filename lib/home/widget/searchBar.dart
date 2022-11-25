@@ -1,6 +1,7 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:wg_optical/models/warna.dart';
 
 class searchBar extends StatefulWidget {
   const searchBar({super.key});
@@ -38,7 +39,7 @@ class _searchBarState extends State<searchBar> {
                             height: 51,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
-                              color: Color(0x4ca2a2a2),
+                              color: Colors.white,
                             ),
                           ),
                           Row(
@@ -52,7 +53,7 @@ class _searchBarState extends State<searchBar> {
                                 child: Icon(
                                   Icons.search_rounded,
                                   size: 30,
-                                  color: Colors.white,
+                                  color: color1,
                                 ),
                               ),
                               Container(
@@ -66,7 +67,7 @@ class _searchBarState extends State<searchBar> {
                                     decoration: InputDecoration.collapsed(
                                         hintText: 'Search..',
                                         hintStyle: TextStyle(
-                                          color: Color(0x7fffffff),
+                                          color: color1,
                                           fontSize: 14,
                                           fontFamily: "Montserrat",
                                           fontWeight: FontWeight.w500,
@@ -97,7 +98,7 @@ class _searchBarState extends State<searchBar> {
                           height: 51,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11),
-                            color: Color(0x4ca2a2a2),
+                            color: Colors.white,
                           ),
                         ),
                         Container(
@@ -110,7 +111,7 @@ class _searchBarState extends State<searchBar> {
                             children: [
                               Icon(
                                 Icons.shopping_cart_outlined,
-                                color: Colors.white,
+                                color: color1,
                               ),
                             ],
                           ),

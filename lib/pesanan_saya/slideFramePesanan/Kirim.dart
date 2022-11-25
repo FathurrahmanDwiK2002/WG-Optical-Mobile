@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:wg_optical/pesanan_saya/screen/detailPesanan.dart';
 
 import '../../models/kacaMata_item.dart';
 
@@ -12,18 +16,44 @@ class Kirim extends StatefulWidget {
 }
 
 class _KirimState extends State<Kirim> {
+  File? image;
+
+  Future getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? imagePick =
+        await _picker.pickImage(source: ImageSource.camera);
+    image = File(imagePick!.path);
+  }
+
   final List<KacaMataItem> listKacaMata = [
-    KacaMataItem(Waktu: 'Riski Doer', title: '#TR7265486', subtitle: '1'),
-    KacaMataItem(Waktu: 'Rizal Sakne', title: '#TR7265400', subtitle: '2')
+    KacaMataItem(
+        Waktu: 'Riski Doer',
+        title: '#TR7265486',
+        subtitle:
+            'Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68121'),
+    KacaMataItem(
+        Waktu: 'Rizal Sakne',
+        title: '#TR7265400',
+        subtitle:
+            'Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68121')
   ];
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Color(0xfff0f0f0),
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Container(
       width: screenWidth,
-      height: screenHeight / 2 + 110,
+      height: heightPhone * 0.62,
       child: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -64,9 +94,25 @@ class _KirimState extends State<Kirim> {
   }
 
   Widget _listkacamata(KacaMataItem cItem) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Color(0xfff0f0f0),
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
       child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => detailPesanan(anu: cItem)));
+          // print(cItem.title.toString());
+        },
         child: Container(
           width: 368,
           height: 188,
@@ -94,14 +140,14 @@ class _KirimState extends State<Kirim> {
                       size: 40,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: screenWidth * 0.028,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Pesanan",
+                          cItem.title!,
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 13,
@@ -121,18 +167,18 @@ class _KirimState extends State<Kirim> {
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Container(
-                  width: 340,
+                  width: screenWidth * 0.9,
                   height: 1,
                   color: Color(0x3f5e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Text(
-                  cItem.title!,
+                  cItem.Waktu!,
                   style: TextStyle(
                     color: Color(0xff5e5e5e),
                     fontSize: 15,
@@ -141,36 +187,30 @@ class _KirimState extends State<Kirim> {
                   ),
                 ),
                 SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Dengan nama Customer : ",
-                      style: TextStyle(
-                        color: Color(0xff5e5e5e),
-                        fontSize: 13,
-                      ),
-                    ),
-                    Text(
-                      cItem.Waktu!,
-                      style: TextStyle(
-                        color: Color(0xff5e5e5e),
-                        fontSize: 13,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.007,
                 ),
                 Container(
-                  width: 340,
+                  width: screenWidth * 0.7,
+                  child: Text(
+                    cItem.subtitle!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Color(0xff5e5e5e),
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: heightPhone * 0.018,
+                ),
+                Container(
+                  width: screenWidth * 0.9,
                   height: 1,
                   color: Color(0x195e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,7 +219,7 @@ class _KirimState extends State<Kirim> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Total Harga Jual",
+                          "Total",
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 11,
@@ -214,7 +254,8 @@ class _KirimState extends State<Kirim> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            await getImage();
                             showModalBottomSheet(
                               backgroundColor: Colors.transparent,
                               context: context,
@@ -266,6 +307,11 @@ class _KirimState extends State<Kirim> {
                                         ),
                                         color: Colors.black,
                                       ),
+                                      child: Center(
+                                          child: Image.file(
+                                        image!,
+                                        fit: BoxFit.cover,
+                                      )),
                                     ),
                                     SizedBox(
                                       height:
@@ -299,7 +345,6 @@ class _KirimState extends State<Kirim> {
                                 ),
                               ),
                             );
-                            print('object');
                           },
                         ),
                       ),
@@ -312,55 +357,5 @@ class _KirimState extends State<Kirim> {
         ),
       ),
     );
-    // return Padding(
-    //   padding: EdgeInsets.only(left: 10.0, right: 5.0, top: 5),
-    //   child: GestureDetector(
-    //     child: Container(
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(15.0),
-    //       ),
-    //       height: 30.0,
-    //       width: 150.0,
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: [
-    //           Padding(
-    //             padding: EdgeInsets.only(left: 10.0),
-    //             child: Text(
-    //               cItem.subtitle!,
-    //               style: TextStyle(
-    //                   fontFamily: "Montserrat",
-    //                   color: Colors.black,
-    //                   fontSize: 15.0),
-    //             ),
-    //           ),
-    //           Padding(
-    //             padding: EdgeInsets.only(left: 40.0),
-    //             child: Text(
-    //               cItem.title!,
-    //               style: TextStyle(
-    //                 color: Colors.black,
-    //                 fontSize: 15.0,
-    //                 fontFamily: "Montserrat",
-    //               ),
-    //             ),
-    //           ),
-    //           Padding(
-    //             padding: EdgeInsets.only(left: 80.0),
-    //             child: Text(
-    //               cItem.Waktu!,
-    //               style: TextStyle(
-    //                 color: Colors.black,
-    //                 fontSize: 15.0,
-    //                 fontFamily: "Montserrat",
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

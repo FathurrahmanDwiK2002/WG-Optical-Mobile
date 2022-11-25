@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:wg_optical/models/kacaMata_item.dart';
+import 'package:wg_optical/models/warna.dart';
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -20,7 +21,7 @@ class _profileState extends State<profile> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final appbar = AppBar(
-      backgroundColor: Color(0xfff0f0f0),
+      backgroundColor: color1,
       elevation: 0,
       toolbarHeight: 0,
     );
@@ -30,7 +31,7 @@ class _profileState extends State<profile> {
         MediaQuery.of(context).padding.top;
 
     return Scaffold(
-        backgroundColor: Color(0xfff0f0f0),
+        backgroundColor: color1,
         appBar: appbar,
         body: Column(
           children: [
@@ -43,8 +44,8 @@ class _profileState extends State<profile> {
                   Stack(
                     children: [
                       Container(
-                        width: (screenWidth / 2) - 48,
-                        height: (screenHeight / 2) - 258,
+                        width: 159,
+                        height: 163,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(47),
                           boxShadow: [
@@ -68,7 +69,7 @@ class _profileState extends State<profile> {
             Text(
               "Nama Panjang user ",
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 25,
                 fontFamily: "Montserrat",
                 fontWeight: FontWeight.w700,
@@ -284,10 +285,10 @@ class _profileState extends State<profile> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color: Color(0xff343948),
+                  color: Colors.white,
                   width: 2,
                 ),
-                color: Color(0xfff0f0f0),
+                color: color1,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -295,7 +296,7 @@ class _profileState extends State<profile> {
                   Text(
                     "keluar",
                     style: TextStyle(
-                      color: Color(0xff343948),
+                      color: Colors.white,
                       fontSize: 18,
                       fontFamily: "Montserrat",
                       fontWeight: FontWeight.w500,

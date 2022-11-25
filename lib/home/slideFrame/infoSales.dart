@@ -3,6 +3,7 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:wg_optical/models/warna.dart';
 
 import '../../models/kacaMata_item.dart';
 import '../screens/detailFrame.dart';
@@ -64,7 +65,7 @@ class _infoSalesState extends State<infoSales> {
                   offset: Offset(2, 2),
                 ),
               ],
-              color: Colors.white),
+              color: color3),
           height: 225.0,
           width: (MediaQuery.of(context).size.width / 2) + 160,
           child: Column(
@@ -124,7 +125,7 @@ class _infoSalesState extends State<infoSales> {
                   offset: Offset(2, 2),
                 ),
               ],
-              color: Colors.white),
+              color: color3),
           height: 225.0,
           width: (MediaQuery.of(context).size.width / 2) + 160,
           child: Column(
@@ -156,7 +157,7 @@ class _infoSalesState extends State<infoSales> {
                         Text(
                           "Pesanan dalam pengiriman",
                           style: TextStyle(
-                            color: Color(0xff5e5e5e),
+                            color: Colors.black,
                             fontSize: 10,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w500,
@@ -166,7 +167,7 @@ class _infoSalesState extends State<infoSales> {
                           "30",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xff5e5e5e),
+                            color: Colors.black,
                             fontSize: 32,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w700,
@@ -184,7 +185,7 @@ class _infoSalesState extends State<infoSales> {
                         height: 2,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color(0xff5e5e5e),
+                            color: Colors.black,
                             width: 1,
                           ),
                         ),
@@ -201,7 +202,7 @@ class _infoSalesState extends State<infoSales> {
                         Text(
                           "Pesanan selesai ",
                           style: TextStyle(
-                            color: Color(0xff5e5e5e),
+                            color: Colors.black,
                             fontSize: 10,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w500,
@@ -211,7 +212,7 @@ class _infoSalesState extends State<infoSales> {
                           "15",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xff5e5e5e),
+                            color: Colors.black,
                             fontSize: 30,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w700,

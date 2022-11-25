@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
+import 'package:wg_optical/home/screens/pageCart.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
 
 import '../../models/kacaMata_item.dart';
@@ -680,6 +681,24 @@ class _pageLensaState extends State<pageLensa>
                                         ),
                                         color: Color(0xffc9cbca),
                                       ),
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      pageCart(),
+                                                ));
+                                          },
+                                          child: Text(
+                                            "Bayar",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          )),
                                     ),
                                   )
                                 ],
@@ -1122,6 +1141,24 @@ class _pageLensaState extends State<pageLensa>
                                         ),
                                         color: Color(0xffc9cbca),
                                       ),
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      pageCart(),
+                                                ));
+                                          },
+                                          child: Text(
+                                            "Bayar",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          )),
                                     ),
                                   )
                                 ],

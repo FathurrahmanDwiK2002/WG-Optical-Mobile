@@ -1,0 +1,10 @@
+^F:\PROJECT\WG_OPTICAL\WG-OPTICAL-MOBILE\BUILD\WINDOWS\CMAKEFILES\37F54C85995C17804DBA73F7FEE3E595\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

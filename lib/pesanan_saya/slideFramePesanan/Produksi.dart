@@ -51,7 +51,7 @@ class _ProduksiState extends State<Produksi> {
         MediaQuery.of(context).padding.top;
     return Container(
       width: screenWidth,
-      height: heightPhone * 0.64,
+      height: heightPhone * 0.62,
       child: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -113,7 +113,7 @@ class _ProduksiState extends State<Produksi> {
         },
         child: Container(
           width: 200,
-          height: heightPhone * 0.223,
+          height: 188,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             boxShadow: [
@@ -132,13 +132,11 @@ class _ProduksiState extends State<Produksi> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(
                       Icons.account_circle_rounded,
                       size: 40,
-                    ),
-                    SizedBox(
-                      width: 10,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,10 +161,10 @@ class _ProduksiState extends State<Produksi> {
                       ],
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.23,
+                      width: screenWidth * 0.17,
                     ),
                     Container(
-                      width: 94,
+                      width: screenWidth * 0.26,
                       height: 26,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
@@ -190,15 +188,15 @@ class _ProduksiState extends State<Produksi> {
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Container(
-                  width: 340,
+                  width: screenWidth * 0.9,
                   height: 1,
                   color: Color(0x3f5e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Text(
                   cItem.Waktu!,
@@ -210,7 +208,7 @@ class _ProduksiState extends State<Produksi> {
                   ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: heightPhone * 0.007,
                 ),
                 Container(
                   width: screenWidth * 0.7,
@@ -225,15 +223,15 @@ class _ProduksiState extends State<Produksi> {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Container(
-                  width: 340,
+                  width: screenWidth * 0.9,
                   height: 1,
                   color: Color(0x195e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
