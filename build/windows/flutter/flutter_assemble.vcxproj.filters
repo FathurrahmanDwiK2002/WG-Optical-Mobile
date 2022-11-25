@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\Project\Wg_Optical\WG-Optical-Mobile\build\windows\CMakeFiles\33b2ab612c8048b7d0a7c70aca083fa6\flutter_windows.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="F:\Project\Wg_Optical\WG-Optical-Mobile\build\windows\CMakeFiles\69408291f4e73a29d07a0047acce6298\flutter_assemble.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="F:\Project\Wg_Optical\WG-Optical-Mobile\windows\flutter\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\Project\Wg_Optical\WG-Optical-Mobile\build\windows\flutter\CMakeFiles\flutter_assemble" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{EAEA975C-0385-3D0F-BFA2-D741C662C331}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

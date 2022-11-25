@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
+import 'package:wg_optical/models/warna.dart';
 import 'package:wg_optical/page_profile/profile.dart';
 import 'package:wg_optical/pesanan_saya/pesananSaya.dart';
 import 'package:wg_optical/riwayat/page_riwayat.dart';
@@ -47,12 +48,12 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
       body: Center(
         child: _widgetOptions.elementAt(currentIndex),
       ),
-      backgroundColor: Color(0xff343948),
+      backgroundColor: color3,
       bottomNavigationBar: Container(
         height: 80,
         width: 100,
         decoration: BoxDecoration(
-          color: Color(0xff343948),
+          color: color2,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.15),
@@ -70,7 +71,8 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
             onTap: () {
               setState(() {
                 currentIndex = index;
-                HapticFeedback.lightImpact();
+                print(index);
+                // HapticFeedback.lightImpact();
               });
             },
             splashColor: Colors.white,
@@ -86,9 +88,8 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
                       height: index == currentIndex ? screenWidth * .10 : 0,
                       width: index == currentIndex ? screenWidth * .1500 : 0,
                       decoration: BoxDecoration(
-                        color: index == currentIndex
-                            ? Colors.white
-                            : Colors.transparent,
+                        color:
+                            index == currentIndex ? color3 : Colors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
@@ -100,7 +101,7 @@ class _navbarState extends State<navbar> with TickerProviderStateMixin {
                   child: Icon(
                     listOfIcons[index],
                     size: screenWidth * .06,
-                    color: index == currentIndex ? Colors.black : Colors.white,
+                    color: index == currentIndex ? color2 : Colors.white,
                   ),
                 ),
               ],

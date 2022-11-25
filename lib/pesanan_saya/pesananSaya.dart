@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:wg_optical/models/warna.dart';
 import 'package:wg_optical/pesanan_saya/slideFramePesanan/Kirim.dart';
 import 'package:wg_optical/pesanan_saya/slideFramePesanan/Produksi.dart';
 import 'package:wg_optical/pesanan_saya/slideFramePesanan/Selesai.dart';
@@ -47,11 +48,20 @@ class _pesananSayaState extends State<pesananSaya>
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: color1,
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      backgroundColor: Color(0xfff0f0f0),
+      backgroundColor: color1,
       appBar: AppBar(
-        backgroundColor: Color(0xfff0f0f0),
+        backgroundColor: color1,
         elevation: 0,
         toolbarHeight: 0,
       ),
@@ -80,7 +90,7 @@ class _pesananSayaState extends State<pesananSaya>
                             child: Text(
                               "Pesanan Saya",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 25,
                                 fontFamily: "Montserrat",
                                 fontWeight: FontWeight.w700,
@@ -136,9 +146,9 @@ class _pesananSayaState extends State<pesananSaya>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildSizeButton('DiProduksi', 0),
+                _buildSizeButton('Diproses', 0),
                 _buildSizeButton('Dikirim', 1),
-                _buildSizeButton('Selesai', 2)
+                _buildSizeButton('Konfirmasi', 2)
               ],
             ),
           ),
@@ -147,10 +157,10 @@ class _pesananSayaState extends State<pesananSaya>
             height: 1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.black38,
+              color: Colors.black,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black54,
+                  color: Colors.black,
                   blurRadius: 6,
                   offset: Offset(2, 4),
                 ),
@@ -158,7 +168,7 @@ class _pesananSayaState extends State<pesananSaya>
             ),
           ),
           SizedBox(
-            height: 30.0,
+            height: heightPhone * 0.02,
           ),
           Container(
             child: _widgetOptions.elementAt(counter),
@@ -189,7 +199,7 @@ class _pesananSayaState extends State<pesananSaya>
             child: Text(
               title,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600,
               ),

@@ -9,9 +9,7 @@ Future<void> main() async {
 
   await Hive.openBox('Data');
   runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'WG Optical',
-      home: pageHome()));
+      debugShowCheckedModeBanner: false, title: 'WG Optical', home: navbar()));
 }
 
 class pageHome extends StatefulWidget {

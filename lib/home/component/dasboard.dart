@@ -12,6 +12,7 @@ import 'package:wg_optical/home/screens/pageSet.dart';
 import 'package:wg_optical/home/slideFrame/infoSales.dart';
 import 'package:wg_optical/home/widget/searchBar.dart';
 import 'package:wg_optical/home/screens/detailFrame.dart';
+import 'package:wg_optical/models/warna.dart';
 import 'package:wg_optical/pesanan_saya/screen/detailPesanan.dart';
 
 import '../../models/kacaMata_item.dart';
@@ -50,7 +51,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final appbar = AppBar(
-        backgroundColor: Color(0xfff0f0f0),
+        backgroundColor: color1,
         elevation: 0,
         toolbarHeight: 70,
         leading: Padding(
@@ -65,7 +66,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                 },
                 icon: Icon(
                   Icons.alarm_add_outlined,
-                  color: Colors.black,
+                  color: color3,
                   size: 30,
                 ))),
         actions: [
@@ -83,7 +84,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                 },
                 icon: Icon(
                   Icons.card_travel_outlined,
-                  color: Colors.black,
+                  color: color3,
                   size: 30,
                 )),
           )
@@ -93,7 +94,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
         appbar.preferredSize.height -
         MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Color(0xfff0f0f0),
+      backgroundColor: color1,
       appBar: appbar,
       body: Column(
         children: [
@@ -114,7 +115,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                 Text(
                   "Transaksi",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.w700,
@@ -123,7 +124,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                 Text(
                   "Pilih transaksi",
                   style: TextStyle(
-                    color: Color(0xff9f9f9f),
+                    color: Colors.white,
                     fontSize: 14,
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.w700,
@@ -137,7 +138,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
           ),
           Container(
             width: screenWidth * 0.86,
-            height: heightPhone * 0.066,
+            height: heightPhone * 0.0698,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(11),
               boxShadow: [
@@ -147,7 +148,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   offset: Offset(2, 2),
                 ),
               ],
-              color: Colors.white,
+              color: color3,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +179,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
           ),
           Container(
             width: screenWidth * 0.86,
-            height: heightPhone * 0.066,
+            height: heightPhone * 0.0698,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(11),
               boxShadow: [
@@ -188,7 +189,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   offset: Offset(2, 2),
                 ),
               ],
-              color: Colors.white,
+              color: color3,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +220,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
           ),
           Container(
             width: screenWidth * 0.86,
-            height: heightPhone * 0.066,
+            height: heightPhone * 0.0698,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(11),
               boxShadow: [
@@ -229,7 +230,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   offset: Offset(2, 2),
                 ),
               ],
-              color: Colors.white,
+              color: color3,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -265,7 +266,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   "Copyright @2022 Walyo Group IT Team. ALL Right Reserved",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0x7f000000),
+                    color: color3,
                     fontSize: 13,
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_optical/home/widget/searchBar.dart';
+import 'package:wg_optical/models/warna.dart';
 import 'package:wg_optical/pesanan_saya/screen/detailPesanan.dart';
 
 import '../models/kacaMata_item.dart';
@@ -51,7 +52,7 @@ class _riwayatState extends State<riwayat> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final appbar = AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: color1,
       elevation: 0,
       toolbarHeight: 0,
     );
@@ -61,7 +62,7 @@ class _riwayatState extends State<riwayat> {
         MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      backgroundColor: Color(0xfff0f0f0),
+      backgroundColor: color1,
       appBar: appbar,
       body: Column(
         children: [
@@ -104,7 +105,7 @@ class _riwayatState extends State<riwayat> {
                           Text(
                             "Riwayat",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 25,
                               fontFamily: "Montserrat",
                               fontWeight: FontWeight.w700,
@@ -140,45 +141,41 @@ class _riwayatState extends State<riwayat> {
             height: heightPhone * 0.03,
           ),
           Container(
-            width: 347,
+            width: screenWidth * 0.88,
             height: heightPhone * 0.047,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
-              color: Color(0xff343948),
+              color: color3,
             ),
-            child: Row(
-              children: [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
                     child: Text(
                       "Pesanan Selesai :",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: color2,
                         fontSize: 15,
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  width: screenWidth * 0.6,
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                  Container(
                     child: Text(
                       "230",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: color2,
                         fontSize: 15,
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                  width: 97,
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -194,7 +191,7 @@ class _riwayatState extends State<riwayat> {
           ),
           Container(
               // color: Colors.blue,
-              height: heightPhone * 0.56,
+              height: heightPhone * 0.6,
               width: MediaQuery.of(context).size.width,
               child: ListView(
                 children: [
@@ -265,7 +262,7 @@ class _riwayatState extends State<riwayat> {
                             cItem.subtitle!,
                             style: TextStyle(
                               fontFamily: "Montserrat",
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 15.0,
                               fontWeight: FontWeight.w600,
                             ),
@@ -275,7 +272,7 @@ class _riwayatState extends State<riwayat> {
                           child: Text(
                             cItem.title!,
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 15.0,
                               fontFamily: "Montserrat",
                               fontWeight: FontWeight.w600,
@@ -287,7 +284,7 @@ class _riwayatState extends State<riwayat> {
                     Text(
                       cItem.Waktu!,
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 15.0,
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.w600,
