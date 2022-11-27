@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,17 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Color(0xfff0f0f0),
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -56,11 +69,7 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
               ),
               child: IconButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => navbar(),
-                        ));
+                    Navigator.pop(context);
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -165,31 +174,92 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Jenis Lensa",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0x3f000000),
-                                      blurRadius: 4,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Jenis Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 10,
@@ -207,8 +277,6 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                 height: 10,
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 + 300,
                                 height: 183,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
@@ -287,19 +355,60 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
-                                        height: 15,
+                                        height: heightPhone * 0.015,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -348,15 +457,56 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -445,20 +595,59 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
+                                      SizedBox(height: heightPhone * 0.015),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -506,15 +695,56 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -548,6 +778,15 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -588,6 +827,16 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                             ),
                                           ],
                                           color: Colors.white,
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -661,6 +910,15 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -738,31 +996,82 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Jenis Lensa",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0x3f000000),
-                                      blurRadius: 4,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Jenis Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 10,
@@ -780,8 +1089,6 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                 height: 10,
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 + 300,
                                 height: 183,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
@@ -860,19 +1167,60 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
-                                        height: 15,
+                                        height: heightPhone * 0.015,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -921,15 +1269,56 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -1018,19 +1407,60 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
-                                        height: 15,
+                                        height: heightPhone * 0.015,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -1079,15 +1509,56 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.06,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                                cursorColor: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: screenWidth * 0.2,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: screenWidth * 0.11,
+                                              child: TextField(
+                                                // controller: kodeframe,
+                                                decoration: InputDecoration(
+                                                  hintText: "",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -1122,6 +1593,15 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                   ],
                                   color: Colors.white,
                                 ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -1150,6 +1630,15 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(

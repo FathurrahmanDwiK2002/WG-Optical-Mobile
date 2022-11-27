@@ -118,11 +118,7 @@ class _pageNotificationState extends State<pageNotification>
                 ),
                 child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => navbar(),
-                          ));
+                      Navigator.pop(context);
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
@@ -146,9 +142,9 @@ class _pageNotificationState extends State<pageNotification>
           child: Column(
             children: [
               Container(
-                width: 322,
+                width: screenWidth,
                 height: 80,
-                color: Colors.transparent,
+                color: Colors.amber,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,12 +152,30 @@ class _pageNotificationState extends State<pageNotification>
                     Container(
                       child: Stack(
                         children: [
-                          Container(
-                            width: 298,
-                            height: 51,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Container(
+                              width: screenWidth * 0.8,
+                              height: 51,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 15, left: 60),
+                                child: TextField(
+                                  textAlign: TextAlign.start,
+                                  decoration: InputDecoration.collapsed(
+                                      hintText: 'Search..',
+                                      hintStyle: TextStyle(
+                                        color: Color(0xff5e5e5e),
+                                        fontSize: 14,
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                ),
+                              ),
                             ),
                           ),
                           Row(
@@ -173,7 +187,7 @@ class _pageNotificationState extends State<pageNotification>
                                 width: 50,
                                 // color: Colors.red,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 40),
+                                  padding: const EdgeInsets.only(left: 30),
                                   child: Icon(
                                     Icons.search_rounded,
                                     size: 30,
@@ -181,26 +195,26 @@ class _pageNotificationState extends State<pageNotification>
                                   ),
                                 ),
                               ),
-                              Container(
-                                height: 50,
-                                width: 200,
-                                // color: Colors.green,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 15, left: 30),
-                                  child: TextField(
-                                    textAlign: TextAlign.start,
-                                    decoration: InputDecoration.collapsed(
-                                        hintText: 'Search..',
-                                        hintStyle: TextStyle(
-                                          color: Color(0xff5e5e5e),
-                                          fontSize: 14,
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  ),
-                                ),
-                              )
+                              // Container(
+                              //   height: 50,
+                              //   width: screenWidth * 1,
+                              //   // color: Colors.green,
+                              //   child: Padding(
+                              //     padding:
+                              //         const EdgeInsets.only(top: 15, left: 30),
+                              //     child: TextField(
+                              //       textAlign: TextAlign.start,
+                              //       decoration: InputDecoration.collapsed(
+                              //           hintText: 'Search..',
+                              //           hintStyle: TextStyle(
+                              //             color: Color(0xff5e5e5e),
+                              //             fontSize: 14,
+                              //             fontFamily: "Montserrat",
+                              //             fontWeight: FontWeight.w500,
+                              //           )),
+                              //     ),
+                              //   ),
+                              // )
                             ],
                           )
                         ],
@@ -240,7 +254,7 @@ class _pageNotificationState extends State<pageNotification>
                   body: _Data.isEmpty
                       ? Center(
                           child: Container(
-                            width: 369,
+                            width: screenWidth * 0.80,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -257,7 +271,7 @@ class _pageNotificationState extends State<pageNotification>
                         )
                       : Center(
                           child: Container(
-                            width: 369,
+                            width: screenWidth * 0.8,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -413,7 +427,7 @@ class _pageNotificationState extends State<pageNotification>
                   body: _Data.isEmpty
                       ? Center(
                           child: Container(
-                            width: 369,
+                            width: screenWidth * 0.8,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -430,7 +444,7 @@ class _pageNotificationState extends State<pageNotification>
                         )
                       : Center(
                           child: Container(
-                            width: 369,
+                            width: screenWidth * 0.8,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),

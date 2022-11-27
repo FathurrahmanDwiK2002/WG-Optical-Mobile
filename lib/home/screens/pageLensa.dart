@@ -32,6 +32,17 @@ class _pageLensaState extends State<pageLensa>
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final appbar = AppBar(
+      backgroundColor: Color(0xfff0f0f0),
+      elevation: 0,
+      toolbarHeight: 0,
+    );
+
+    final heightPhone = screenHeight -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -166,31 +177,82 @@ class _pageLensaState extends State<pageLensa>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Jenis Lensa",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0x3f000000),
-                                      blurRadius: 4,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Jenis Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 10,
@@ -299,9 +361,7 @@ class _pageLensaState extends State<pageLensa>
                                           color: Color(0x4ca2a2a2),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
+                                      SizedBox(height: heightPhone * 0.015),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -457,9 +517,7 @@ class _pageLensaState extends State<pageLensa>
                                           color: Color(0x4ca2a2a2),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
+                                      SizedBox(height: heightPhone * 0.015),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -710,31 +768,82 @@ class _pageLensaState extends State<pageLensa>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Jenis Lensa",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0x3f000000),
-                                      blurRadius: 4,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Jenis Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Lensa",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 42,
+                                        width: screenWidth * 0.43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(11),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x3f000000),
+                                              blurRadius: 4,
+                                              offset: Offset(2, 2),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 10,
@@ -843,9 +952,7 @@ class _pageLensaState extends State<pageLensa>
                                           color: Color(0x4ca2a2a2),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
+                                      SizedBox(height: heightPhone * 0.015),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -1001,9 +1108,7 @@ class _pageLensaState extends State<pageLensa>
                                           color: Color(0x4ca2a2a2),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
+                                      SizedBox(height: heightPhone * 0.015),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

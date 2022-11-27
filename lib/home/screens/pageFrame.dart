@@ -215,6 +215,15 @@ class _pageFrameState extends State<pageFrame>
                                   ],
                                   color: Colors.white,
                                 ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -254,6 +263,16 @@ class _pageFrameState extends State<pageFrame>
                                             ),
                                           ],
                                           color: Colors.white,
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -327,6 +346,15 @@ class _pageFrameState extends State<pageFrame>
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
