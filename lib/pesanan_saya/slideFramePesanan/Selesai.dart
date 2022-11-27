@@ -200,7 +200,7 @@ class _SelesaiState extends State<Selesai> {
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Container(
                   width: screenWidth * 0.9,
@@ -208,7 +208,7 @@ class _SelesaiState extends State<Selesai> {
                   color: Color(0x3f5e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Text(
                   cItem.Waktu!,
@@ -220,7 +220,7 @@ class _SelesaiState extends State<Selesai> {
                   ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: heightPhone * 0.007,
                 ),
                 Container(
                   width: screenWidth * 0.7,
@@ -235,7 +235,7 @@ class _SelesaiState extends State<Selesai> {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Container(
                   width: screenWidth * 0.9,
@@ -243,7 +243,7 @@ class _SelesaiState extends State<Selesai> {
                   color: Color(0x195e5e5e),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: heightPhone * 0.018,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

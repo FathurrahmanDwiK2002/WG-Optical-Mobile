@@ -48,11 +48,7 @@ class _detailPesananState extends State<detailPesanan> {
                 ),
                 child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => navbar(),
-                          ));
+                      Navigator.pop(context);
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
