@@ -1,9 +1,11 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
 import 'package:wg_optical/home/screens/pageCart.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
+import 'package:wg_optical/models/warna.dart';
 
 import '../../models/kacaMata_item.dart';
 
@@ -17,11 +19,25 @@ class pageLensa extends StatefulWidget {
 class _pageLensaState extends State<pageLensa>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  List<dynamic> productTypesLensa = [];
+  List<dynamic> DP = [];
+
+  String? countryId;
+  String? countryDp;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
+    this.productTypesLensa = [
+      {"id": "1", "label": "Simple"},
+      {"id": "2", "label": "Variable"}
+    ];
+
+    this.DP = [
+      {"id": "1", "label": "1"},
+      {"id": "2", "label": "2"}
+    ];
   }
 
   @override
@@ -50,35 +66,38 @@ class _pageLensaState extends State<pageLensa>
           toolbarHeight: 70,
           centerTitle: true,
           backgroundColor: Color(0xff5e5e5e),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Color(0xffc9cbca),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3f000000),
-                    blurRadius: 8,
-                    offset: Offset(2, 2),
+          leading: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffc9cbca),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x3f000000),
+                        blurRadius: 8,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => navbar(),
-                        ));
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.transparent,
-                  )),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 18, bottom: 19),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: color1,
+                    )),
+              ),
+            ],
           ),
           title: Text(
             "Pembayaran Lensa",
@@ -212,18 +231,25 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth * 0.04,
                                   ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Lensa",
+                                        "Varian Lensa",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
@@ -249,6 +275,27 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: FormHelper.dropDownWidget(
+                                            context,
+                                            "",
+                                            this.countryId,
+                                            this.productTypesLensa,
+                                            (onChangedVal) {
+                                          this.countryId = onChangedVal;
+                                          print(onChangedVal);
+                                        }, (onValidateVal) {
+                                          if (onValidateVal == null) {
+                                            return 'Please Select Product Type';
+                                          }
+
+                                          return null;
+                                        },
+                                            borderColor: Colors.transparent,
+                                            borderFocusColor:
+                                                Colors.transparent,
+                                            borderRadius: 0,
+                                            optionLabel: "label",
+                                            optionValue: "id"),
                                       ),
                                     ],
                                   ),
@@ -270,8 +317,6 @@ class _pageLensaState extends State<pageLensa>
                                 height: 10,
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 + 300,
                                 height: 183,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
@@ -303,16 +348,14 @@ class _pageLensaState extends State<pageLensa>
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "SPH",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -321,20 +364,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "CYL",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "CYL",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "AXIS",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -343,35 +382,71 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: heightPhone * 0.015),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "ADD+",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -380,20 +455,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "PD.",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "PD.",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "SEG.",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -402,22 +473,60 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -459,16 +568,14 @@ class _pageLensaState extends State<pageLensa>
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "SPH",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -477,20 +584,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "CYL",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "CYL",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "AXIS",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -499,35 +602,71 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: heightPhone * 0.015),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "ADD+",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -536,20 +675,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "PD.",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "PD.",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "SEG.",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -558,22 +693,60 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -619,6 +792,16 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -659,6 +842,26 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: FormHelper.dropDownWidget(
+                                            context,
+                                            "",
+                                            this.countryDp,
+                                            this.DP, (onChangedVal) {
+                                          this.countryDp = onChangedVal;
+                                          print(onChangedVal);
+                                        }, (onValidateVal) {
+                                          if (onValidateVal == null) {
+                                            return 'Please Select Product Type';
+                                          }
+
+                                          return null;
+                                        },
+                                            borderColor: Colors.transparent,
+                                            borderFocusColor:
+                                                Colors.transparent,
+                                            borderRadius: 0,
+                                            optionLabel: "label",
+                                            optionValue: "id"),
                                       ),
                                     ],
                                   )
@@ -691,6 +894,15 @@ class _pageLensaState extends State<pageLensa>
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -803,18 +1015,25 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: TextField(
+                                            // controller: kodeframe,
+                                            decoration: InputDecoration(
+                                              hintText: "",
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth * 0.04,
                                   ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Lensa",
+                                        "Varian Lensa",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
@@ -840,6 +1059,27 @@ class _pageLensaState extends State<pageLensa>
                                           ],
                                           color: Colors.white,
                                         ),
+                                        child: FormHelper.dropDownWidget(
+                                            context,
+                                            "",
+                                            this.countryId,
+                                            this.productTypesLensa,
+                                            (onChangedVal) {
+                                          this.countryId = onChangedVal;
+                                          print(onChangedVal);
+                                        }, (onValidateVal) {
+                                          if (onValidateVal == null) {
+                                            return 'Please Select Product Type';
+                                          }
+
+                                          return null;
+                                        },
+                                            borderColor: Colors.transparent,
+                                            borderFocusColor:
+                                                Colors.transparent,
+                                            borderRadius: 0,
+                                            optionLabel: "label",
+                                            optionValue: "id"),
                                       ),
                                     ],
                                   ),
@@ -861,8 +1101,6 @@ class _pageLensaState extends State<pageLensa>
                                 height: 10,
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 + 300,
                                 height: 183,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
@@ -894,16 +1132,14 @@ class _pageLensaState extends State<pageLensa>
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "SPH",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -912,20 +1148,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "CYL",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "CYL",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "AXIS",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -934,35 +1166,71 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: heightPhone * 0.015),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "ADD+",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -971,20 +1239,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "PD.",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "PD.",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "SEG.",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -993,22 +1257,60 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -1050,16 +1352,14 @@ class _pageLensaState extends State<pageLensa>
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "SPH",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -1068,20 +1368,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "CYL",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "CYL",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "AXIS",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -1090,35 +1386,71 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
                                         ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: heightPhone * 0.015),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 30),
-                                            child: Text(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
                                               "ADD+",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -1127,20 +1459,16 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            "PD.",
-                                            style: TextStyle(
-                                              color: Color(0xff343948),
-                                              fontSize: 13,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w500,
+                                            Text(
+                                              "PD.",
+                                              style: TextStyle(
+                                                color: Color(0xff343948),
+                                                fontSize: 13,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 30),
-                                            child: Text(
+                                            Text(
                                               "SEG.",
                                               style: TextStyle(
                                                 color: Color(0xff343948),
@@ -1149,22 +1477,60 @@ class _pageLensaState extends State<pageLensa>
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                    2 +
-                                                200,
+                                        width: screenWidth,
                                         height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(11),
                                           color: Color(0x4ca2a2a2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                  cursorColor: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: screenWidth * 0.11,
+                                                child: TextField(
+                                                  // controller: kodeframe,
+                                                  decoration: InputDecoration(
+                                                    hintText: "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -1198,6 +1564,15 @@ class _pageLensaState extends State<pageLensa>
                                     ),
                                   ],
                                   color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: TextField(
+                                    // controller: kodeframe,
+                                    decoration: InputDecoration(
+                                      hintText: "",
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
