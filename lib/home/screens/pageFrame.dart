@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
 import 'package:wg_optical/home/screens/pageCart.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
+import 'package:wg_optical/models/warna.dart';
 
 import '../../models/kacaMata_item.dart';
 
@@ -63,35 +64,38 @@ class _pageFrameState extends State<pageFrame>
           toolbarHeight: 70,
           centerTitle: true,
           backgroundColor: Color(0xff5e5e5e),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Color(0xffc9cbca),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3f000000),
-                    blurRadius: 8,
-                    offset: Offset(2, 2),
+          leading: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffc9cbca),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x3f000000),
+                        blurRadius: 8,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => navbar(),
-                        ));
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.transparent,
-                  )),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 18, bottom: 19),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: color1,
+                    )),
+              ),
+            ],
           ),
           title: Text(
             "Pembayaran Frame",

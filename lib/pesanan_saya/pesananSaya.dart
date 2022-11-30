@@ -141,6 +141,55 @@ class _pesananSayaState extends State<pesananSaya>
               ],
             ),
           ),
+          // Container(
+          //   width: screenWidth / 3,
+          //   height: 44,
+          //   child: TabBar(controller: tabController, tabs: [
+          //     Container(
+          //       child: Row(
+          //         children: [
+          //           Center(
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 Text(
+          //                   "Diproses",
+          //                   style: TextStyle(
+          //                     color: Colors.white,
+          //                     fontSize: 15.0,
+          //                     fontWeight: FontWeight.w600,
+          //                   ),
+          //                 ),
+          //                 SizedBox(
+          //                   width: 10,
+          //                 ),
+          //                 Container(
+          //                   width: 27,
+          //                   height: 15,
+          //                   decoration: BoxDecoration(
+          //                     borderRadius: BorderRadius.circular(7),
+          //                     color: Color(0xffff0000),
+          //                   ),
+          //                   child: Center(
+          //                     child: Text(
+          //                       "10",
+          //                       style: TextStyle(
+          //                         color: Colors.white,
+          //                         fontSize: 11,
+          //                         fontFamily: "Montserrat",
+          //                         fontWeight: FontWeight.w600,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     )
+          //   ]),
+          // ),
           Container(
             width: screenWidth - 30.0,
             child: Row(
@@ -180,7 +229,7 @@ class _pesananSayaState extends State<pesananSaya>
 
   Widget _buildSizeButton(String title, int index) {
     return AnimatedContainer(
-      duration: Duration(seconds: 4),
+      duration: Duration(seconds: 10),
       curve: Curves.easeIn,
       child: GestureDetector(
         onTap: () {
@@ -191,18 +240,64 @@ class _pesananSayaState extends State<pesananSaya>
         },
         child: Container(
           height: 40.0,
-          width: 100.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+          width: 120.0,
+          // color: Colors.amber,
           child: Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 27,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: Color(0xffff0000),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "10",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(flex: 3, child: Container()),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: index == counter
+                            ? Colors.white
+                            : Colors.transparent),
+                  ),
+                )
+              ],
             ),
           ),
         ),
