@@ -84,73 +84,64 @@ class _profileState extends State<profile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                        width: 330,
-                        height: heightPhone * 0.09,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                            bottomLeft: Radius.circular(4),
-                            bottomRight: Radius.circular(4),
+                  Container(
+                    width: 330,
+                    height: heightPhone * 0.09,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(4),
+                        bottomRight: Radius.circular(4),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Container(
+                            width: 47,
+                            height: 47,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Color(0x66343948),
+                                width: 1,
+                              ),
+                              color: Colors.white,
+                            ),
                           ),
-                          color: Colors.white,
                         ),
-                        child: Row(
+                        SizedBox(
+                          width: screenHeight * 0.024,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 30),
-                              child: Container(
-                                width: 47,
-                                height: 47,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                    color: Color(0x66343948),
-                                    width: 1,
-                                  ),
-                                  color: Colors.white,
-                                ),
+                            Text(
+                              "ID Karyawan",
+                              style: TextStyle(
+                                color: Color(0xff343948),
+                                fontSize: 17,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(
-                              width: screenWidth * 0.05,
+                            Text(
+                              "WGO0892618212",
+                              style: TextStyle(
+                                color: Color(0xff343948),
+                                fontSize: 10,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "ID Karyawan",
-                                  style: TextStyle(
-                                    color: Color(0xff343948),
-                                    fontSize: 17,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Container(
-                                  width: screenWidth * 0.5,
-                                  child: Text(
-                                    "WGO1092739",
-                                    maxLines: 3,
-                                    overflow: TextOverflow.clip,
-                                    style: TextStyle(
-                                      color: Color(0xff343948),
-                                      fontSize: 10,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: screenHeight * 0.006,
@@ -247,7 +238,7 @@ class _profileState extends State<profile> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: screenHeight * 0.024,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,

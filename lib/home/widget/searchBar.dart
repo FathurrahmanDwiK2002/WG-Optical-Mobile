@@ -13,118 +13,109 @@ class searchBar extends StatefulWidget {
 class _searchBarState extends State<searchBar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Container(
-              // color: Colors.black,
-              ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.77,
+          height: 80,
+          // color: Colors.amber,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                width: 322,
-                height: 80,
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                child: Stack(
                   children: [
                     Container(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 298,
-                            height: 51,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.white,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 50,
-                                // color: Colors.red,
-                                child: Icon(
-                                  Icons.search_rounded,
-                                  size: 30,
-                                  color: color1,
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                width: 200,
-                                // color: Colors.green,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: TextField(
-                                    textAlign: TextAlign.start,
-                                    decoration: InputDecoration.collapsed(
-                                        hintText: 'Search..',
-                                        hintStyle: TextStyle(
-                                          color: color1,
-                                          fontSize: 14,
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                        ],
+                      width: MediaQuery.of(context).size.width * 0.73,
+                      height: 51,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 70,
-                height: 80,
-                // color: Colors.blue,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Stack(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: 51,
-                          height: 51,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(11),
-                            color: Colors.white,
+                          height: 50,
+                          width: 50,
+                          // color: Colors.red,
+                          child: Icon(
+                            Icons.search_rounded,
+                            size: 30,
+                            color: color1,
                           ),
                         ),
                         Container(
-                          width: 50,
                           height: 50,
-                          // color: Colors.amber,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.shopping_cart_outlined,
-                                color: color1,
-                              ),
-                            ],
+                          width: 200,
+                          // color: Colors.green,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: TextField(
+                              textAlign: TextAlign.start,
+                              decoration: InputDecoration.collapsed(
+                                  hintText: 'Search..',
+                                  hintStyle: TextStyle(
+                                    color: color1,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            ),
                           ),
                         )
                       ],
-                    ),
+                    )
                   ],
                 ),
-              )
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.18,
+          height: 80,
+          // color: Colors.blue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    width: 51,
+                    height: 51,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(11),
+                      color: Colors.white,
+                    ),
+                  ),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    // color: Colors.amber,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_outlined,
+                          color: color1,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

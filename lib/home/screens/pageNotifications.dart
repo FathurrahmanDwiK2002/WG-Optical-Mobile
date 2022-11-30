@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
+import 'package:wg_optical/models/warna.dart';
 
 import '../../models/kacaMata_item.dart';
 
@@ -100,31 +101,38 @@ class _pageNotificationState extends State<pageNotification>
             toolbarHeight: 70,
             centerTitle: true,
             backgroundColor: Color(0xff5e5e5e),
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color(0xffc9cbca),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x3f000000),
-                      blurRadius: 8,
-                      offset: Offset(2, 2),
+            leading: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Color(0xffc9cbca),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          blurRadius: 8,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.transparent,
-                    )),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 18, bottom: 19),
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: color1,
+                      )),
+                ),
+              ],
             ),
             title: Text(
               "Aktivitas",
@@ -144,7 +152,6 @@ class _pageNotificationState extends State<pageNotification>
               Container(
                 width: screenWidth,
                 height: 80,
-                color: Colors.amber,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,7 +261,7 @@ class _pageNotificationState extends State<pageNotification>
                   body: _Data.isEmpty
                       ? Center(
                           child: Container(
-                            width: screenWidth * 0.80,
+                            width: screenWidth * 0.9,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -271,7 +278,7 @@ class _pageNotificationState extends State<pageNotification>
                         )
                       : Center(
                           child: Container(
-                            width: screenWidth * 0.8,
+                            width: screenWidth * 0.9,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -427,7 +434,7 @@ class _pageNotificationState extends State<pageNotification>
                   body: _Data.isEmpty
                       ? Center(
                           child: Container(
-                            width: screenWidth * 0.8,
+                            width: screenWidth * 0.9,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -444,7 +451,7 @@ class _pageNotificationState extends State<pageNotification>
                         )
                       : Center(
                           child: Container(
-                            width: screenWidth * 0.8,
+                            width: screenWidth * 0.9,
                             height: screenHeight / 2 - 170,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),

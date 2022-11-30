@@ -165,7 +165,7 @@ class _riwayatState extends State<riwayat> {
                   ),
                   Container(
                     child: Text(
-                      "230",
+                      "${listKacaMata.length}",
                       style: TextStyle(
                         color: color2,
                         fontSize: 15,
@@ -189,27 +189,29 @@ class _riwayatState extends State<riwayat> {
           SizedBox(
             height: heightPhone * 0.02,
           ),
-          Container(
-              // color: Colors.blue,
-              height: heightPhone * 0.6,
-              width: MediaQuery.of(context).size.width,
-              child: ListView(
-                children: [
-                  Container(
-                    // color: Colors.amber,
-                    width: screenWidth,
-                    height: heightPhone * 0.53,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        ...listKacaMata.map((e) {
-                          return _listkacamata(e);
-                        }).toList()
-                      ],
+          Expanded(
+            child: Container(
+                // color: Colors.blue,
+                // height: heightPhone * 0.61,
+                width: MediaQuery.of(context).size.width,
+                child: ListView(
+                  children: [
+                    Container(
+                      // color: Colors.amber,
+                      width: screenWidth,
+                      height: heightPhone * 0.53,
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        children: [
+                          ...listKacaMata.map((e) {
+                            return _listkacamata(e);
+                          }).toList()
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ],
       ),
     );
@@ -243,10 +245,10 @@ class _riwayatState extends State<riwayat> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          height: heightPhone * 0.066,
+          height: heightPhone * 0.069,
           width: 120.0,
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
               children: [
                 Row(
@@ -293,7 +295,7 @@ class _riwayatState extends State<riwayat> {
                   ],
                 ),
                 SizedBox(
-                  height: heightPhone * 0.0073,
+                  height: heightPhone * 0.009,
                 ),
                 SizedBox(
                   width: screenWidth * 0.9,
