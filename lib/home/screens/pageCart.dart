@@ -10,6 +10,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wg_optical/home/component/dasboard.dart';
 import 'package:wg_optical/home/slideFrame/models.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
+import 'package:wg_optical/models/warna.dart';
 
 import '../../models/kacaMata_item.dart';
 
@@ -94,35 +95,38 @@ class _pageCartState extends State<pageCart>
           toolbarHeight: 70,
           centerTitle: true,
           backgroundColor: Color(0xff5e5e5e),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Color(0xffc9cbca),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3f000000),
-                    blurRadius: 8,
-                    offset: Offset(2, 2),
+          leading: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 19, left: 23, bottom: 19),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffc9cbca),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x3f000000),
+                        blurRadius: 8,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => navbar(),
-                        ));
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.transparent,
-                  )),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 18, bottom: 19),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: color1,
+                    )),
+              ),
+            ],
           ),
           title: Text(
             "Keranjang",
@@ -173,12 +177,12 @@ class _pageCartState extends State<pageCart>
                 children: [
                   Container(
                     color: Color(0xff5e5e5e),
-                    height: MediaQuery.of(context).size.height / 2 - 400,
+                    height: MediaQuery.of(context).size.height * 0.007,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Pilih Barang ",
@@ -194,235 +198,233 @@ class _pageCartState extends State<pageCart>
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height / 2 + 150,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 10, right: 7),
-                      child: ListView.builder(
-                          // the list of items
-                          itemCount: _Data.length,
-                          itemBuilder: (_, index) {
-                            final currentItem = _Data[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 353,
-                                height: 72,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0x3f000000),
-                                      blurRadius: 4,
-                                      offset: Offset(2, 2),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                              2 -
-                                          60,
-                                      child: Row(
-                                        children: [
-                                          Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: isChecked,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                isChecked = value!;
-                                                print(isChecked);
-                                              });
-                                            },
+                    width: MediaQuery.of(context).size.width * 0.97,
+                    child: ListView.builder(
+                        // the list of items
+                        itemCount: _Data.length,
+                        itemBuilder: (_, index) {
+                          final currentItem = _Data[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 353,
+                              height: 72,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0x3f000000),
+                                    blurRadius: 4,
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Checkbox(
+                                          checkColor: Colors.white,
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
+                                                  getColor),
+                                          value: isChecked,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              isChecked = value!;
+                                              print(isChecked);
+                                            });
+                                          },
+                                        ),
+                                        Container(
+                                          width: 60,
+                                          height: 60,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                color: Colors.amber,
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            width: 60,
-                                            height: 60,
-                                            child: Stack(
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.04,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.2,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  color: Colors.amber,
+                                                Text(
+                                                  currentItem['name']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    color: Color(0xff3a3a3a),
+                                                    fontSize: 15,
+                                                    fontFamily: "Montserrat",
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Kode : ',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xff3a3a3a),
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      currentItem['kode'],
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xff3a3a3a),
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            width: 84,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    currentItem['name']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      color: Color(0xff3a3a3a),
-                                                      fontSize: 15,
-                                                      fontFamily: "Montserrat",
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Kode : ',
-                                                        style: TextStyle(
-                                                          color:
-                                                              Color(0xff3a3a3a),
-                                                          fontSize: 10,
-                                                          fontFamily:
-                                                              "Montserrat",
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        currentItem['kode'],
-                                                        style: TextStyle(
-                                                          color:
-                                                              Color(0xff3a3a3a),
-                                                          fontSize: 10,
-                                                          fontFamily:
-                                                              "Montserrat",
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2 -
-                                                  150),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              IconButton(
-                                                  onPressed: _increment,
-                                                  icon: Icon(
-                                                    Icons.add_circle,
-                                                    color: Color(0xff82dcc6),
-                                                    size: 20,
-                                                  )),
-                                              Text(
-                                                '$_counter',
-                                              ),
-                                              IconButton(
-                                                  onPressed: _decrement,
-                                                  icon: Icon(
-                                                    Icons.remove_circle,
-                                                    color: Color(0xfff35e58),
-                                                    size: 20,
-                                                  )),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        IconButton(
+                                            onPressed: _decrement,
+                                            icon: Icon(
+                                              Icons.remove_circle,
+                                              color: Color(0xfff35e58),
+                                              size: 20,
+                                            )),
+                                        Text(
+                                          '$_counter',
+                                        ),
+                                        IconButton(
+                                            onPressed: _increment,
+                                            icon: Icon(
+                                              Icons.add_circle,
+                                              color: Color(0xff82dcc6),
+                                              size: 20,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            );
-                          }),
-                    ),
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
             ),
       bottomNavigationBar: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 103,
         color: Color(0xffc9cbca),
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 10, right: 20),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Checkbox(
-                checkColor: Colors.white,
-                fillColor: MaterialStateProperty.resolveWith(getColor),
-                value: isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isChecked = value!;
-                    print(isChecked);
-                  });
-                },
-              ),
-              // Container(
-              //   width: 22.40,
-              //   height: 22.40,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(3),
-              //     border: Border.all(
-              //       color: Color(0x7f000000),
-              //       width: 1,
-              //     ),
-              //     color: Color(0xffc9cbca),
-              //   ),
-              // ),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                width: 3,
-                height: 51,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(11),
-                  color: Color(0x3f000000),
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Total Barang :",
-                      style: TextStyle(
-                        color: Color(0xff3a3a3a),
-                        fontSize: 12,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w500,
+              Row(
+                children: [
+                  Checkbox(
+                    checkColor: Colors.white,
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                        print(isChecked);
+                      });
+                    },
+                  ),
+                  // Container(
+                  //   width: 22.40,
+                  //   height: 22.40,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(3),
+                  //     border: Border.all(
+                  //       color: Color(0x7f000000),
+                  //       width: 1,
+                  //     ),
+                  //     color: Color(0xffc9cbca),
+                  //   ),
+                  // ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                  Container(
+                    width: 3,
+                    height: 51,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(11),
+                      color: Color(0x3f000000),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.05,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Total Barang :",
+                        style: TextStyle(
+                          color: Color(0xff3a3a3a),
+                          fontSize: 12,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "2",
-                      style: TextStyle(
-                        color: Color(0xff3a3a3a),
-                        fontSize: 12,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w500,
+                      SizedBox(
+                        height: 5,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2 - 120,
+                      Text(
+                        "2",
+                        style: TextStyle(
+                          color: Color(0xff3a3a3a),
+                          fontSize: 12,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               ElevatedButton(
                 onPressed: () {
