@@ -9,6 +9,7 @@ import 'package:wg_optical/home/screens/pageFrame.dart';
 import 'package:wg_optical/home/screens/pageLensa.dart';
 import 'package:wg_optical/home/screens/pageNotifications.dart';
 import 'package:wg_optical/home/screens/pageSet.dart';
+import 'package:wg_optical/home/screens/pembayaran.dart';
 import 'package:wg_optical/home/slideFrame/infoSales.dart';
 import 'package:wg_optical/home/widget/searchBar.dart';
 import 'package:wg_optical/home/screens/detailFrame.dart';
