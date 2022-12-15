@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
@@ -11,16 +12,19 @@ import 'package:http/http.dart' as http;
 
 class loginPage extends StatelessWidget {
   final _loadHiveProfile = Hive.box('Profile');
-  
+
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   bool isLoading = false;
+
 
   Future<void> _createItem(Map<String, dynamic> newItem) async {
     await _loadHiveProfile.add(newItem); // update the UI
   }
 
   void checkAccount({context, email, password}) async {
+    EasyLoading.show(status: 'Loading');
+    
     var response = await http.post(
       Uri.parse('${Env.URL_PREFIX}api/loginAPI.php'),
       body: {
@@ -31,6 +35,7 @@ class loginPage extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
+      EasyLoading.dismiss();
       String stat;
       if (jsonDecode(response.body)['status'] == 'error') {
         stat = 'Gagal';
