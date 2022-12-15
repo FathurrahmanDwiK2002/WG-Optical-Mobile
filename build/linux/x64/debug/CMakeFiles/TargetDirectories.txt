@@ -1,0 +1,14 @@
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/wg_optical.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/edit_cache.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/rebuild_cache.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/list_install_components.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/install.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/install/local.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/CMakeFiles/install/strip.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/flutter_assemble.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/edit_cache.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/rebuild_cache.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/list_install_components.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/install.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/install/local.dir
+/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/linux/x64/debug/flutter/CMakeFiles/install/strip.dir
