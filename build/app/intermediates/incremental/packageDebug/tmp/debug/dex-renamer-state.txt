@@ -1,4 +1,4 @@
-#Fri Dec 23 13:28:43 WIB 2022
+#Fri Dec 23 15:59:26 WIB 2022
 base.0=/mnt/naise/Wg_Optical/WG-Optical-Mobile/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

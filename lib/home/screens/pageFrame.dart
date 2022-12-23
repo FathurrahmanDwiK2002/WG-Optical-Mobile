@@ -3,11 +3,14 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wg_optical/env/currency.dart';
 import 'package:wg_optical/home/screens/pageCart.dart';
 import 'package:wg_optical/home/screens/pembayaran.dart';
 import 'package:wg_optical/models/warna.dart';
@@ -160,7 +163,6 @@ class _pageFrameState extends State<pageFrame>
           children: [
             Container(
               height: 246,
-              
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -203,7 +205,7 @@ class _pageFrameState extends State<pageFrame>
                                     if (_dataFrame[i]['data']['Id_Bawa'] ==
                                         value) {
                                       minHarga =
-                                          'Harga Minimal: ${formatter.format(int.parse(_dataFrame[i]['data']['harga_jual']))}';
+                                          '${_dataFrame[i]['data']['harga_jual']}';
                                     }
                                   }
                                 });
@@ -280,6 +282,10 @@ class _pageFrameState extends State<pageFrame>
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                InputFormatCurrency(),
+                              ],
                               keyboardType: TextInputType.number,
                               controller: nominal,
                               decoration: InputDecoration(
@@ -320,7 +326,7 @@ class _pageFrameState extends State<pageFrame>
                 ),
                 child: TextButton(
                     onPressed: () {
-                      print(_dataFrame);
+                      print(minHarga);
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
@@ -342,50 +348,77 @@ class _pageFrameState extends State<pageFrame>
                 height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  
                   color: color1,
                 ),
                 child: TextButton(
                     onPressed: () async {
-                      var respone = await http.post(
-                        Uri.parse('${Env.URL_PREFIX}api/menuFrame.php'),
-                        body: {
-                          "type": "insert",
-                          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
-                          'id_pegawai': _dataProfile[0]['id_pegawai'],
-                          "kode_frame": selectedFrame,
-                          "harga": nominal.text,
-                        },
-                      );
-
-                      var listD = jsonDecode(respone.body);
-
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: ((context) {
-                          return AlertDialog(
-                            title: Text(listD['status']),
-                            content: Text(listD['msg']),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  listD['status'] == 'Berhasil'
-                                      ? Navigator.of(context)
-                                          .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    navbar()),
-                                              ),
-                                              (route) => false)
-                                      : Navigator.of(context).pop();
+                      if (selectedFrame != '' && nominal.text.isNotEmpty) {
+                        if (int.parse(nominal.text.replaceAll('.', '')) <
+                            int.parse(minHarga)) {
+                          ArtSweetAlert.show(
+                            context: context,
+                            artDialogArgs: ArtDialogArgs(
+                                type: ArtSweetAlertType.danger,
+                                title: 'Gagal',
+                                onConfirm: () {
+                                  Navigator.of(context).pop();
                                 },
-                                child: Text('OK'),
-                              ),
-                            ],
+                                text:
+                                    'Nominal harus lebih dari ${curr.format(int.parse(minHarga))}'),
                           );
-                        }),
-                      );
+                        } else {
+                          var respone = await http.post(
+                            Uri.parse('${Env.URL_PREFIX}api/menuFrame.php'),
+                            body: {
+                              "type": "insert",
+                              "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+                              'id_pegawai': _dataProfile[0]['id_pegawai'],
+                              "kode_frame": selectedFrame,
+                              "harga": nominal.text.replaceAll('.', ''),
+                            },
+                          );
+
+                          var listD = jsonDecode(respone.body);
+
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title: Text(listD['status']),
+                                content: Text(listD['msg']),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      listD['status'] == 'Berhasil'
+                                          ? Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                    builder: ((context) =>
+                                                        navbar()),
+                                                  ),
+                                                  (route) => false)
+                                          : Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            }),
+                          );
+                        }
+                      } else {
+                        ArtSweetAlert.show(
+                          context: context,
+                          artDialogArgs: ArtDialogArgs(
+                              type: ArtSweetAlertType.danger,
+                              title: 'Gagal',
+                              onConfirm: () {
+                                Navigator.of(context).pop();
+                              },
+                              text: 'Kode Frame dan Nominal harus diisi'),
+                        );
+                      }
                     },
                     child: Text(
                       "Beli",
@@ -403,4 +436,6 @@ class _pageFrameState extends State<pageFrame>
       ),
     );
   }
+
+  final curr = NumberFormat("###,###.###", "en_us");
 }
