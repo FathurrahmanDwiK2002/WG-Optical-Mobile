@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -17,14 +18,13 @@ class loginPage extends StatelessWidget {
   var passwordController = TextEditingController();
   bool isLoading = false;
 
-
   Future<void> _createItem(Map<String, dynamic> newItem) async {
     await _loadHiveProfile.add(newItem); // update the UI
   }
 
   void checkAccount({context, email, password}) async {
     EasyLoading.show(status: 'Loading');
-    
+
     var response = await http.post(
       Uri.parse('${Env.URL_PREFIX}api/loginAPI.php'),
       body: {
@@ -49,28 +49,26 @@ class loginPage extends StatelessWidget {
           "urlFoto": jsonDecode(response.body)['data']['urlFoto'],
         });
       }
-      showDialog(
+
+      ArtSweetAlert.show(
+        barrierDismissible: false,
         context: context,
-        builder: ((context) {
-          return AlertDialog(
-            title: Text(stat),
-            content: Text(jsonDecode(response.body)['msg']),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  stat == 'Berhasil'
-                      ? Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: ((context) => navbar()),
-                          ),
-                          (route) => false)
-                      : Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        }),
+        artDialogArgs: ArtDialogArgs(
+            
+            type: stat == 'Berhasil'
+                ? ArtSweetAlertType.success
+                : ArtSweetAlertType.danger,
+            title: stat,
+            onConfirm: () {
+              stat == 'Berhasil'
+                  ? Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: ((context) => navbar()),
+                      ),
+                      (route) => false)
+                  : Navigator.of(context).pop();
+            },
+            text: jsonDecode(response.body)['msg']),
       );
     }
   }
@@ -117,9 +115,9 @@ class loginPage extends StatelessWidget {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w700,
                                 fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                height: 1),
+                                ),
                           ),
                           SizedBox(
                             height: 5,
@@ -130,9 +128,8 @@ class loginPage extends StatelessWidget {
                             style: TextStyle(
                                 color: Color.fromRGBO(0, 0, 0, 1),
                                 fontFamily: 'Montserrat',
-                                fontSize: 11,
-                                fontWeight: FontWeight.normal,
-                                height: 1),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,),
                           )
                         ],
                       ),
@@ -260,7 +257,7 @@ class loginPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Copyright @2022 Walyo Group IT Team.',
+                              'Copyright @2022 Waluyo Group IT Team.',
                               style: TextStyle(
                                 color: Colors.white,
                               ),

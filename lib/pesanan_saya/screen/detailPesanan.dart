@@ -64,8 +64,7 @@ class _detailPesananState extends State<detailPesanan> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w700,
+                fontFamily: "Montserrat-Bold",
               ),
             )),
         body: Container(
@@ -102,8 +101,7 @@ class _detailPesananState extends State<detailPesanan> {
                             style: TextStyle(
                               color: Color(0xff5e5e5e),
                               fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
+                              fontFamily: "Montserrat-Bold",
                             ),
                           ),
                           SizedBox(
@@ -111,9 +109,11 @@ class _detailPesananState extends State<detailPesanan> {
                           ),
                           Text(
                             "Pesanan masih dengan kode pesanan #TR29102902 masih dalam pemrosesan ",
+                            
                             style: TextStyle(
+                              fontFamily: 'Montserrat',
                               color: Color(0xff5e5e5e),
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -148,8 +148,7 @@ class _detailPesananState extends State<detailPesanan> {
                             style: TextStyle(
                               color: Color(0xff5e5e5e),
                               fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
+                              fontFamily: "Montserrat-Bold",
                             ),
                           ),
                           SizedBox(
@@ -158,6 +157,7 @@ class _detailPesananState extends State<detailPesanan> {
                           Text(
                             widget.anu.Waktu.toString(),
                             style: TextStyle(
+                              fontFamily: 'Montserrat',
                               color: Color(0xff5e5e5e),
                               fontSize: 13,
                             ),
@@ -168,6 +168,7 @@ class _detailPesananState extends State<detailPesanan> {
                           Text(
                             "089734839994",
                             style: TextStyle(
+                              fontFamily: 'Montserrat',
                               color: Color(0xff5e5e5e),
                               fontSize: 13,
                             ),
@@ -178,6 +179,7 @@ class _detailPesananState extends State<detailPesanan> {
                           Text(
                             "Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68121\n",
                             style: TextStyle(
+                              fontFamily: 'Montserrat',
                               color: Color(0xff5e5e5e),
                               fontSize: 13,
                             ),
@@ -214,8 +216,7 @@ class _detailPesananState extends State<detailPesanan> {
                             style: TextStyle(
                               color: Color(0xff5e5e5e),
                               fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
+                              fontFamily: "Montserrat-Bold",
                             ),
                           ),
                           SizedBox(
@@ -227,6 +228,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "Total Pesanan ",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -234,6 +236,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "3 barang",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -249,6 +252,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "DP",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -256,6 +260,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "Rp150.00",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -271,6 +276,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "Kurang Bayar",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -278,6 +284,7 @@ class _detailPesananState extends State<detailPesanan> {
                               Text(
                                 "Rp410.00",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),
@@ -295,13 +302,13 @@ class _detailPesananState extends State<detailPesanan> {
                                 style: TextStyle(
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Montserrat-SemiBold",
                                 ),
                               ),
                               Text(
                                 "Rp560.000",
                                 style: TextStyle(
+                                  fontFamily: 'Montserrat-SemiBold',
                                   color: Color(0xff5e5e5e),
                                   fontSize: 13,
                                 ),

@@ -113,9 +113,8 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   "Transaksi",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontFamily: "Montserrat-SemiBold",
                   ),
                 ),
                 Text(
@@ -123,8 +122,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
+                    fontFamily: "Montserrat-SemiBold",
                   ),
                 ),
               ],
@@ -151,13 +149,16 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  child: Text(
-                    "Set",
-                    style: TextStyle(
-                      color: Color(0xff343948),
-                      fontSize: 20,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.maxFinite,
+                    child: Text(
+                      "Set",
+                      style: TextStyle(
+                        color: Color(0xff343948),
+                        fontSize: 20,
+                        fontFamily: "Montserrat-Bold",
+                      ),
                     ),
                   ),
                   onPressed: () {
@@ -199,13 +200,16 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                           builder: (context) => pageFrame(),
                         ));
                   },
-                  child: Text(
-                    "Frame",
-                    style: TextStyle(
-                      color: Color(0xff343948),
-                      fontSize: 20,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.maxFinite,
+                    child: Text(
+                      "Frame",
+                      style: TextStyle(
+                        color: Color(0xff343948),
+                        fontSize: 20,
+                        fontFamily: "Montserrat-Bold",
+                      ),
                     ),
                   ),
                 )
@@ -240,13 +244,16 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                           builder: (context) => pageLensa(),
                         ));
                   },
-                  child: Text(
-                    "Lensa",
-                    style: TextStyle(
-                      color: Color(0xff343948),
-                      fontSize: 20,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.maxFinite,
+                    child: Text(
+                      "Lensa",
+                      style: TextStyle(
+                        color: Color(0xff343948),
+                        fontSize: 20,
+                        fontFamily: "Montserrat-Bold",
+                      ),
                     ),
                   ),
                 )
@@ -263,6 +270,7 @@ class _dasboardState extends State<dasboard> with TickerProviderStateMixin {
                   "Copyright @2022 Walyo Group IT Team. ALL Right Reserved",
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontFamily: 'Montserrat',
                     color: color3,
                     fontSize: 13,
                   ),

@@ -75,8 +75,8 @@ class _infoSalesState extends State<infoSales> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 30.0,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700),
+                      fontFamily: "Montserrat-Bold",
+    ),
                 ),
               ),
               Padding(
@@ -84,8 +84,8 @@ class _infoSalesState extends State<infoSales> {
                 child: Text(
                   cItem.subtitle!,
                   style: TextStyle(
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w600,
+                      fontFamily: "Montserrat-SemiBold",
+
                       color: Colors.black,
                       fontSize: 12.0),
                 ),
@@ -96,7 +96,7 @@ class _infoSalesState extends State<infoSales> {
                   cItem.itemImg!,
                   style: TextStyle(
                       fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w600,
+
                       color: Colors.black,
                       fontSize: 30.0),
                 ),
@@ -135,8 +135,7 @@ class _infoSalesState extends State<infoSales> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 30.0,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700),
+                      fontFamily: "Montserrat-Bold",),
                 ),
               ),
               Row(
@@ -156,8 +155,7 @@ class _infoSalesState extends State<infoSales> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 10,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         Text(
@@ -167,7 +165,6 @@ class _infoSalesState extends State<infoSales> {
                             color: Colors.black,
                             fontSize: 32,
                             fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -201,8 +198,7 @@ class _infoSalesState extends State<infoSales> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 10,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         Text(
@@ -212,7 +208,6 @@ class _infoSalesState extends State<infoSales> {
                             color: Colors.black,
                             fontSize: 30,
                             fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],

@@ -38,6 +38,9 @@ class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Montserrat',
+      ),
       debugShowCheckedModeBanner: false,
       title: 'WG Optical',
       home: _loadHiveProfile.get(0) != null ? navbar() : splashPage(),

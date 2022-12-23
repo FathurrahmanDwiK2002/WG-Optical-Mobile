@@ -258,13 +258,13 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
       body: Container(
         height: screenHeight,
         width: screenWidth,
-        color: color2,
+        color: color1,
         child: SingleChildScrollView(
             child: Column(
           children: [
             Container(
               width: screenWidth,
-              color: color3,
+              color: color1,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -476,14 +476,13 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 0,
             ),
             Container(
-              height: 480,
               width: screenWidth,
-              color: color3,
+              color: color1,
               child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -734,6 +733,9 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Column(
                       children: [
                         Container(
@@ -977,7 +979,7 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
             ),
             Container(
               height: 246,
-              color: color3,
+              color: color1,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(

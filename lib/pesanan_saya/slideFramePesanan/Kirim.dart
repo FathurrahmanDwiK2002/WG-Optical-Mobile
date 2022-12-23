@@ -151,13 +151,14 @@ class _KirimState extends State<Kirim> {
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 13,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-Bold",
+                            
                           ),
                         ),
                         Text(
                           "5 Nov 1987 13:52",
                           style: TextStyle(
+                            fontFamily: 'Montserrat-SemiBold',
                             color: Color(0xff5e5e5e),
                             fontSize: 12,
                           ),
@@ -182,8 +183,8 @@ class _KirimState extends State<Kirim> {
                   style: TextStyle(
                     color: Color(0xff5e5e5e),
                     fontSize: 15,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
+                    fontFamily: "Montserrat-Bold",
+                    
                   ),
                 ),
                 SizedBox(
@@ -196,8 +197,9 @@ class _KirimState extends State<Kirim> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                      fontFamily: 'Montserrat',
                       color: Color(0xff5e5e5e),
-                      fontSize: 13,
+                      fontSize: 12,
                     ),
                   ),
                 ),
@@ -221,6 +223,7 @@ class _KirimState extends State<Kirim> {
                         Text(
                           "Total",
                           style: TextStyle(
+                            fontFamily: 'Montserrat',
                             color: Color(0xff5e5e5e),
                             fontSize: 11,
                           ),
@@ -230,123 +233,119 @@ class _KirimState extends State<Kirim> {
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 12,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                       ],
                     ),
                     Container(
-                      width: 94,
+                      
                       height: 26,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         color: Color(0xff0065ff),
                       ),
-                      child: Center(
-                        child: TextButton(
-                          child: Text(
-                            "Foto Bukti",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
-                            ),
+                      child: TextButton(
+                        child: Text(
+                          "Foto Bukti",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
-                          onPressed: () async {
-                            await getImage();
-                            showModalBottomSheet(
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (context) => Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(56),
-                                    topRight: Radius.circular(56),
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(0),
-                                  ),
-                                  color: Color(0xffc9cbca),
+                        ),
+                        onPressed: () async {
+                          await getImage();
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (context) => Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(56),
+                                  topRight: Radius.circular(56),
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
                                 ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 8,
+                                color: Color(0xffc9cbca),
+                              ),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Container(
+                                    width: 45,
+                                    height: 4,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9),
+                                      color: Color(0xff5e5e5e),
                                     ),
-                                    Container(
-                                      width: 45,
-                                      height: 4,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(9),
-                                        color: Color(0xff5e5e5e),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height /
+                                                2 -
+                                            390,
+                                  ),
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height /
+                                                2 -
+                                            100,
+                                    width: MediaQuery.of(context).size.width /
+                                            2 +
+                                        100,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
                                       ),
+                                      color: Colors.black,
                                     ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                                  2 -
-                                              390,
+                                    child: Center(
+                                        child: Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
+                                    )),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height /
+                                                2 -
+                                            390,
+                                  ),
+                                  Container(
+                                    width: 94,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
+                                      color: Color(0xff0065ff),
                                     ),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                                  2 -
-                                              100,
-                                      width: MediaQuery.of(context).size.width /
-                                              2 +
-                                          100,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                        color: Colors.black,
-                                      ),
-                                      child: Center(
-                                          child: Image.file(
-                                        image!,
-                                        fit: BoxFit.cover,
-                                      )),
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                                  2 -
-                                              390,
-                                    ),
-                                    Container(
-                                      width: 94,
-                                      height: 36,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(7),
-                                        color: Color(0xff0065ff),
-                                      ),
-                                      child: Center(
-                                        child: TextButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            "Kirim",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                    child: Center(
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Kirim",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 17,
+                                            fontFamily: "Montserrat-SemiBold",
+                                        
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     )
                   ],

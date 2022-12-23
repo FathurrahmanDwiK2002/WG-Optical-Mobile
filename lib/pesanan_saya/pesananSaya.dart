@@ -87,8 +87,7 @@ class _pesananSayaState extends State<pesananSaya>
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
+                                fontFamily: "Montserrat-Bold",
                               ),
                             ),
                           ),
@@ -152,7 +151,7 @@ class _pesananSayaState extends State<pesananSaya>
         
             width: screenWidth - 30.0,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildSizeButton('Diproses', 0),
                 _buildSizeButton('Dikirim', 1),
@@ -215,9 +214,9 @@ class _pesananSayaState extends State<pesananSaya>
                       Text(
                         title,
                         style: TextStyle(
+                          fontFamily: 'MontSerrat',
                           color: Colors.white,
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 12.0,
                         ),
                       ),
                       SizedBox(

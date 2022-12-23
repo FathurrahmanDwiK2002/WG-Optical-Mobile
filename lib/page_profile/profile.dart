@@ -102,8 +102,7 @@ class _profileState extends State<profile> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 25,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w700,
+                fontFamily: "Montserrat-Bold",
               ),
             ),
             SizedBox(
@@ -156,8 +155,7 @@ class _profileState extends State<profile> {
                               style: TextStyle(
                                 color: Color(0xff343948),
                                 fontSize: 17,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
+                                fontFamily: "Montserrat-Bold",
                               ),
                             ),
                             Text(
@@ -166,7 +164,6 @@ class _profileState extends State<profile> {
                                 color: Color(0xff343948),
                                 fontSize: 10,
                                 fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -213,8 +210,7 @@ class _profileState extends State<profile> {
                               style: TextStyle(
                                 color: Color(0xff343948),
                                 fontSize: 17,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
+                                fontFamily: "Montserrat-Bold",
                               ),
                             ),
                             Container(
@@ -227,7 +223,6 @@ class _profileState extends State<profile> {
                                   color: Color(0xff343948),
                                   fontSize: 10,
                                   fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -280,8 +275,7 @@ class _profileState extends State<profile> {
                               style: TextStyle(
                                 color: Color(0xff343948),
                                 fontSize: 17,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
+                                fontFamily: "Montserrat-Bold",
                               ),
                             ),
                             Text(
@@ -290,7 +284,6 @@ class _profileState extends State<profile> {
                                 color: Color(0xff343948),
                                 fontSize: 10,
                                 fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -329,8 +322,7 @@ class _profileState extends State<profile> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w500,
+                        fontFamily: "Montserrat-SemiBold",
                       ),
                     ),
                   ],

@@ -63,8 +63,7 @@ class _searchBarState extends State<searchBar> {
                                   hintStyle: TextStyle(
                                     color: color1,
                                     fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Montserrat-SemiBold",
                                   )),
                             ),
                           ),

@@ -115,7 +115,6 @@ class _pageLensaState extends State<pageLensa>
         appbar.preferredSize.height -
         MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
           shadowColor: color1,
           elevation: 5,
@@ -167,13 +166,13 @@ class _pageLensaState extends State<pageLensa>
       body: Container(
         height: screenHeight,
         width: screenWidth,
-        color: color2,
+        color: color1,
         child: SingleChildScrollView(
             child: Column(
           children: [
             Container(
               width: screenWidth,
-              color: color3,
+              color: color1,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -316,14 +315,13 @@ class _pageLensaState extends State<pageLensa>
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 0,
             ),
             Container(
-              height: 480,
               width: screenWidth,
-              color: color3,
+              color: color1,
               child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -343,7 +341,7 @@ class _pageLensaState extends State<pageLensa>
                           height: 10,
                         ),
                         Container(
-                          height: 183,
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11),
                             boxShadow: [
@@ -574,10 +572,13 @@ class _pageLensaState extends State<pageLensa>
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Column(
                       children: [
                         Container(
-                          height: 183,
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11),
                             boxShadow: [
@@ -817,7 +818,7 @@ class _pageLensaState extends State<pageLensa>
             ),
             Container(
               height: 150,
-              color: color3,
+              color: color1,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -912,14 +913,15 @@ class _pageLensaState extends State<pageLensa>
                           'krpd': PD.text,
                           'krseg': SEG.text,
                           'harga': nominal.text,
-                          'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
-                          'selectedVarian': jsonEncode(_selectedItems).toString(),
+                          'jenislensa': convertIDJenisLensa(selectedJenisLensa)
+                              .toString(),
+                          'selectedVarian':
+                              jsonEncode(_selectedItems).toString(),
                         },
                       );
-                    
+
                       print(respone.body);
                       var listD = jsonDecode(respone.body);
-
 
                       showDialog(
                         barrierDismissible: false,

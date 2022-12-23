@@ -158,13 +158,13 @@ class _SelesaiState extends State<Selesai> {
                             style: TextStyle(
                               color: Color(0xff5e5e5e),
                               fontSize: 13,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
+                              fontFamily: "Montserrat-Bold",
                             ),
                           ),
                           Text(
                             "5 Nov 1987 13:52",
                             style: TextStyle(
+                              fontFamily: 'Montserrat-SemiBold',
                               color: Color(0xff5e5e5e),
                               fontSize: 12,
                             ),
@@ -191,8 +191,7 @@ class _SelesaiState extends State<Selesai> {
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 11,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w600,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                       ),
@@ -215,8 +214,7 @@ class _SelesaiState extends State<Selesai> {
                   style: TextStyle(
                     color: Color(0xff5e5e5e),
                     fontSize: 15,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
+                    fontFamily: "Montserrat-Bold",
                   ),
                 ),
                 SizedBox(
@@ -229,8 +227,9 @@ class _SelesaiState extends State<Selesai> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                      fontFamily: 'Montserrat',
                       color: Color(0xff5e5e5e),
-                      fontSize: 13,
+                      fontSize: 12,
                     ),
                   ),
                 ),
@@ -254,6 +253,7 @@ class _SelesaiState extends State<Selesai> {
                         Text(
                           "Total",
                           style: TextStyle(
+                            fontFamily: 'Montserrat',
                             color: Color(0xff5e5e5e),
                             fontSize: 11,
                           ),
@@ -263,8 +263,7 @@ class _SelesaiState extends State<Selesai> {
                           style: TextStyle(
                             color: Color(0xff5e5e5e),
                             fontSize: 12,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                       ],

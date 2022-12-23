@@ -73,7 +73,7 @@ class _riwayatState extends State<riwayat> {
                   // color: Colors.amber,
                 ),
                 Positioned(
-                    top: 10.0,
+                    top: 15.0,
                     left: 10.0,
                     child: Container(
                       color: Colors.transparent,
@@ -101,13 +101,13 @@ class _riwayatState extends State<riwayat> {
                               ),
                             ),
                           ),
+                          
                           Text(
                             "Riwayat",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 25,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
+                              fontSize: 24,
+                              fontFamily: "Montserrat-Bold",
                             ),
                           ),
                           GestureDetector(
@@ -156,9 +156,8 @@ class _riwayatState extends State<riwayat> {
                       "Pesanan Selesai :",
                       style: TextStyle(
                         color: color2,
-                        fontSize: 15,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        fontFamily: "Montserrat-SemiBold",
                       ),
                     ),
                   ),
@@ -167,9 +166,8 @@ class _riwayatState extends State<riwayat> {
                       "${listKacaMata.length}",
                       style: TextStyle(
                         color: color2,
-                        fontSize: 15,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        fontFamily: "Montserrat-SemiBold",
                       ),
                     ),
                   )
@@ -262,10 +260,9 @@ class _riwayatState extends State<riwayat> {
                           child: Text(
                             cItem.subtitle!,
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Montserrat-SemiBold",
                               color: Colors.white,
                               fontSize: 15.0,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -274,9 +271,8 @@ class _riwayatState extends State<riwayat> {
                             cItem.title!,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 15.0,
+                              fontSize: 12.0,
                               fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -287,8 +283,7 @@ class _riwayatState extends State<riwayat> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15.0,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w600,
+                        fontFamily: "Montserrat-SemiBold",
                       ),
                     ),
                   ],

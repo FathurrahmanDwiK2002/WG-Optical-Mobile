@@ -148,20 +148,19 @@ class _pageFrameState extends State<pageFrame>
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontFamily: "Montserrat",
-              fontWeight: FontWeight.w700,
+              fontFamily: "Montserrat-Bold",
             ),
           )),
       body: Container(
         height: screenHeight,
         width: screenWidth,
-        color: color2,
+        color: color1,
         child: SingleChildScrollView(
             child: Column(
           children: [
             Container(
               height: 246,
-              color: color3,
+              
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -175,8 +174,7 @@ class _pageFrameState extends State<pageFrame>
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -211,15 +209,24 @@ class _pageFrameState extends State<pageFrame>
                                 });
                               },
                               popupProps: PopupProps.dialog(
+                                  listViewProps: ListViewProps(
+                                    physics: BouncingScrollPhysics(),
+                                  ),
                                   title: Container(
                                     alignment: Alignment.center,
                                     height: 50,
                                     child: Text(
                                       'Pilih Kode Frame',
                                       textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat-SemiBold',
+                                      ),
                                     ),
                                   ),
                                   searchFieldProps: TextFieldProps(
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                      ),
                                       decoration: InputDecoration(
                                           prefixIcon: Icon(Icons.search),
                                           hintText: 'Cari Kode Frame')),
@@ -233,6 +240,9 @@ class _pageFrameState extends State<pageFrame>
                                 textAlignVertical: TextAlignVertical.center,
                                 dropdownSearchDecoration:
                                     InputDecoration.collapsed(
+                                        hintStyle: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                        ),
                                         hintText: selectedFrame),
                               ),
                             ),
@@ -248,8 +258,7 @@ class _pageFrameState extends State<pageFrame>
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -333,11 +342,8 @@ class _pageFrameState extends State<pageFrame>
                 height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Color(0xff5e5e5e),
-                    width: 1,
-                  ),
-                  color: Color(0xffc9cbca),
+                  
+                  color: color1,
                 ),
                 child: TextButton(
                     onPressed: () async {
