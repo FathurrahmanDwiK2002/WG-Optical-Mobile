@@ -1,12 +1,19 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, non_constant_identifier_names, file_names, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
 
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:wg_optical/home/screens/pageCart.dart';
 import 'package:wg_optical/models/warna.dart';
 import 'package:http/http.dart' as http;
 import 'package:wg_optical/env/env.dart';
 
+import '../widget/navbar.dart';
 
 class pageLensa extends StatefulWidget {
   const pageLensa({super.key});
@@ -17,9 +24,13 @@ class pageLensa extends StatefulWidget {
 
 class _pageLensaState extends State<pageLensa>
     with SingleTickerProviderStateMixin {
-  TextEditingController controllerkodelensa = TextEditingController();
-  TextEditingController controllernamalensa = TextEditingController();
-  TextEditingController controllerjenislensa = TextEditingController();
+  final _loadHiveProfile = Hive.box('Profile');
+
+  String selectedJenisLensa = '';
+  List<dynamic> jenisLensa = ['Progressive', 'Single Vision'];
+
+  List<dynamic> varianLensa = [];
+
   TextEditingController SPHkanan = TextEditingController();
   TextEditingController CLYkanan = TextEditingController();
   TextEditingController AXISkanan = TextEditingController();
@@ -32,32 +43,40 @@ class _pageLensaState extends State<pageLensa>
   TextEditingController ADD = TextEditingController();
   TextEditingController PD = TextEditingController();
   TextEditingController SEG = TextEditingController();
+  List<Map<String, dynamic>> _dataProfile = [];
+  List<dynamic> _selectedItems = [];
+  TextEditingController nominal = TextEditingController();
 
-  void adddata() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_data_transaksi.php"), body: {
-      "kodelensa": controllerkodelensa.text,
-      "namalensa": controllernamalensa.text,
-      "jenislensa": controllerjenislensa.text
+  void _refreshItems() {
+    final data = _loadHiveProfile.keys.map((key) {
+      final value = _loadHiveProfile.get(key);
+      return {
+        "key": key,
+        "id_pegawai": value["id_pegawai"],
+        "nama": value["nama"],
+        "alamat": value["alamat"],
+        "notelepon": value["notelepon"],
+        "urlFoto": value["urlFoto"],
+      };
+    }).toList();
+
+    setState(() {
+      _dataProfile = data.reversed.toList();
     });
   }
 
-  void addkeranjang() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_keranjang.php"), body: {
-      "nama_keranjang": "Lensa",
-      "knsph": SPHkanan.text,
-      "kncyl": CLYkanan.text,
-      "knaxis": AXISkanan.text,
-      "knadd": ADDkanan.text,
-      "knpd": PDkanan.text,
-      "knseg": SEGkanan.text,
-      "sph": SPH.text,
-      "cyl": CLY.text,
-      "axis": AXIS.text,
-      "add": ADD.text,
-      "pd": PD.text,
-      "seg": SEG.text,
-      "namalensa": controllernamalensa.text,
-      "jenislensa": controllerjenislensa.text,
+  void getVarianLensa() async {
+    final respone = await http.post(
+      Uri.parse('${Env.URL_PREFIX}api/menuLensa.php'),
+      body: {
+        "type": "getLensa",
+        "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+        'id_pegawai': _dataProfile[0]['id_pegawai'],
+      },
+    );
+
+    setState(() {
+      varianLensa = jsonDecode(respone.body);
     });
   }
 
@@ -72,15 +91,8 @@ class _pageLensaState extends State<pageLensa>
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
-    productTypesLensa = [
-      {"id": "1", "label": "Simple"},
-      {"id": "2", "label": "Variable"}
-    ];
-
-    DP = [
-      {"id": "1", "label": "1"},
-      {"id": "2", "label": "2"}
-    ];
+    _refreshItems();
+    getVarianLensa();
   }
 
   @override
@@ -160,7 +172,6 @@ class _pageLensaState extends State<pageLensa>
             child: Column(
           children: [
             Container(
-              height: 245,
               width: screenWidth,
               color: color3,
               child: Padding(
@@ -198,22 +209,35 @@ class _pageLensaState extends State<pageLensa>
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: DropdownSearch<String>(
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration:
-                                          InputDecoration()),
-                              popupProps: PopupProps.menu(
-                                showSelectedItems: true,
-                                disabledItemFn: (String s) => s.startsWith('I'),
-                              ),
-                              items: ["Progresif", "Single Vision"],
+                            child: DropdownSearch(
                               onChanged: (value) {
                                 setState(() {
-                                  controllerjenislensa.text = value.toString();
+                                  selectedJenisLensa = value;
                                 });
-                                print(controllerjenislensa.text);
                               },
+                              popupProps: PopupProps.dialog(
+                                  title: Container(
+                                    alignment: Alignment.center,
+                                    height: 50,
+                                    child: Text(
+                                      'Pilih Jenis Lensa',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  searchFieldProps: TextFieldProps(
+                                      decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.search),
+                                          hintText: 'Cari Jenis Lensa')),
+                                  fit: FlexFit.loose,
+                                  searchDelay: Duration(seconds: 0),
+                                  showSearchBox: false),
+                              items: jenisLensa,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                textAlignVertical: TextAlignVertical.center,
+                                dropdownSearchDecoration:
+                                    InputDecoration.collapsed(
+                                        hintText: selectedJenisLensa),
+                              ),
                             ),
                           ),
                         ),
@@ -222,6 +246,9 @@ class _pageLensaState extends State<pageLensa>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           "Varian Lensa",
                           style: TextStyle(
@@ -235,40 +262,53 @@ class _pageLensaState extends State<pageLensa>
                           height: 10,
                         ),
                         Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0x3f000000),
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                              color: Colors.white,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x3f000000),
+                                blurRadius: 4,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                              left: 20,
+                              right: 20,
+                              bottom: 10,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: DropdownSearch<String>(
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration()),
-                                popupProps: PopupProps.menu(
-                                  showSelectedItems: true,
-                                  disabledItemFn: (String s) =>
-                                      s.startsWith('I'),
+                            child: MultiSelectDialogField(
+                                decoration: BoxDecoration(),
+                                dialogHeight: heightPhone * 0.3,
+                                barrierColor: Colors.black.withOpacity(0.5),
+                                isDismissible: false,
+                                chipDisplay: MultiSelectChipDisplay(
+                                  scroll: true,
+                                  scrollBar:
+                                      HorizontalScrollBar(isAlwaysShown: false),
+                                  chipColor: Colors.grey,
+                                  textStyle: TextStyle(color: Colors.white),
                                 ),
-                                items: ["Bluecromic", "Bluray", 'Embo Lali'],
-                                onChanged: (value) {
+                                searchable: true,
+                                title: Text('Pilih Varian Lensa'),
+                                listType: MultiSelectListType.LIST,
+                                items: varianLensa
+                                    .map((e) => MultiSelectItem(
+                                        e['data']['kode_lensa'],
+                                        e['data']['nama_lensa']))
+                                    .toList(),
+                                onConfirm: (items) {
                                   setState(() {
-                                    controllernamalensa.text = value.toString();
+                                    _selectedItems = items;
                                   });
-                                },
-                              ),
-                            )),
+                                  print(jsonEncode(_selectedItems));
+                                }),
+                          ),
+                        ),
                       ],
                     )
                   ],
@@ -394,7 +434,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: SPHkanan,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -406,11 +447,10 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: CLYkanan,
-                                            decoration: InputDecoration.collapsed(
-                                              
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            
                                           ),
                                         ),
                                         Container(
@@ -420,7 +460,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: AXISkanan,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -491,7 +532,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: ADDkanan,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -503,10 +545,10 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: PDkanan,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            cursorColor: Colors.white,
                                           ),
                                         ),
                                         Container(
@@ -516,7 +558,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: SEGkanan,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -625,7 +668,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: SPH,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -637,7 +681,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: CLY,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -649,7 +694,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: AXIS,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -720,7 +766,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: ADD,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -732,7 +779,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: PD,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -744,7 +792,8 @@ class _pageLensaState extends State<pageLensa>
                                           child: TextField(
                                             textAlign: TextAlign.center,
                                             controller: SEG,
-                                            decoration: InputDecoration.collapsed(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -806,8 +855,7 @@ class _pageLensaState extends State<pageLensa>
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              
-                              // controller: kodeframe,
+                              controller: nominal,
                               decoration: InputDecoration.collapsed(
                                 hintText: "",
                               ),
@@ -844,13 +892,67 @@ class _pageLensaState extends State<pageLensa>
                   color: Color(0xff3a3a3a),
                 ),
                 child: TextButton(
-                    onPressed: () {
-                      addkeranjang();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => pageCart(),
-                          ));
+                    onPressed: () async {
+                      var respone = await http.post(
+                        Uri.parse('${Env.URL_PREFIX}api/menuLensa.php'),
+                        body: {
+                          "type": "insert",
+                          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+                          'id_pegawai': _dataProfile[0]['id_pegawai'],
+                          'knsph': SPHkanan.text,
+                          'kncyl': CLYkanan.text,
+                          'knaxis': AXISkanan.text,
+                          'krsph': SPH.text,
+                          'krcyl': CLY.text,
+                          'kraxis': AXIS.text,
+                          'knadd': ADDkanan.text,
+                          'knpd': PDkanan.text,
+                          'knseg': SEGkanan.text,
+                          'kradd': ADD.text,
+                          'krpd': PD.text,
+                          'krseg': SEG.text,
+                          'harga': nominal.text,
+                          'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
+                          'selectedVarian': jsonEncode(_selectedItems).toString(),
+                        },
+                      );
+                    
+                      print(respone.body);
+                      var listD = jsonDecode(respone.body);
+
+
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: ((context) {
+                          return AlertDialog(
+                            title: Text(listD['status']),
+                            content: Text(listD['msg']),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  listD['status'] == 'Berhasil'
+                                      ? Navigator.of(context)
+                                          .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    navbar()),
+                                              ),
+                                              (route) => false)
+                                      : Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        }),
+                      );
+
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => pageCart(),
+                      //     ));
                     },
                     child: Text(
                       "Keranjang",
@@ -867,5 +969,16 @@ class _pageLensaState extends State<pageLensa>
         ),
       ),
     );
+  }
+
+  int convertIDJenisLensa(String lens) {
+    switch (lens) {
+      case 'Progressive':
+        return 1;
+      case 'Single Vision':
+        return 2;
+      default:
+        return 0;
+    }
   }
 }
