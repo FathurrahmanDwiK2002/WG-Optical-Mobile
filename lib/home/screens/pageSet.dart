@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_this, camel_case_types, file_names, prefer_is_empty, avoid_types_as_parameter_names, avoid_print, sized_box_for_whitespace
 
+import 'dart:convert';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
 import 'package:wg_optical/models/warna.dart';
 import 'package:http/http.dart' as http;
 import 'package:wg_optical/env/env.dart';
-
 
 class pageSet extends StatefulWidget {
   const pageSet({super.key});
@@ -17,63 +20,17 @@ class pageSet extends StatefulWidget {
 }
 
 class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
-  List<Map<String, dynamic>> _Data = [];
-  final _account = Hive.box('Data');
-  final anu = TextEditingController();
   final kodeframe = TextEditingController();
   late TabController tabController;
-  Future<void> _addData(Map<String, dynamic> newData) async {
-    await _account.add(newData);
-  }
-
-  String autoId() {
-    var id = "";
-    if (_Data.length == 0) {
-      id = "BR01";
-    } else {
-      var id1 = _Data[1]["kode_barang"].toString();
-      var idTok = id1.substring(0, 2);
-      var nomorTok = int.parse(id1.substring(2, 3)) + 1;
-
-      id = "$idTok$nomorTok";
-    }
-    return id;
-  }
-
-  void load_data() {
-    final data = _account.keys.map((Key) {
-      final value = _account.get(Key);
-      return {
-        "key": Key,
-        "name": value["name"],
-        "kode": value["kode"],
-      };
-    }).toList();
-
-    setState(() {
-      _Data = data.reversed.toList();
-    });
-  }
-
-  List<dynamic> productTypesLensa = [];
-  List<dynamic> DP = [];
-
-  String? countryId;
-  String? countryDp;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
-    this.productTypesLensa = [
-      {"id": "1", "label": "Simple"},
-      {"id": "2", "label": "Variable"}
-    ];
-
-    this.DP = [
-      {"id": "1", "label": "1"},
-      {"id": "2", "label": "2"}
-    ];
+    EasyLoading.show(status: 'Loading');
+    _refreshItems();
+    _getFrame();
+    getVarianLensa();
   }
 
   @override
@@ -82,60 +39,6 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  void adddata() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_barang.php"), body: {
-      "id": id.text,
-      "namalensa": controllernamalensa.text,
-      "jenislensa": controllerjenislensa.text,
-    });
-  }
-
-  void adddata2() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_barang2.php"), body: {
-      "knsph": SPHkanan.text,
-      "kncyl": CLYkanan.text,
-      "knaxis": AXISkanan.text,
-      "knadd": ADDkanan.text,
-      "knpd": PDkanan.text,
-      "knseg": SEGkanan.text,
-      "sph": SPH.text,
-      "cyl": CLY.text,
-      "axis": AXIS.text,
-      "add": ADD.text,
-      "pd": PD.text,
-      "seg": SEG.text
-    });
-  }
-
-  void adddatakeranjang() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_dataKeranjang.php"), body: {
-      "nama_keranjang": "Frame dan Lensa",
-    });
-  }
-
-  void addkeranjang() {
-    http.post(Uri.parse("${Env.URL_PREFIX}/add_keranjang.php"), body: {
-      "nama_keranjang": "Frame dan Lensa",
-      "knsph": SPHkanan.text,
-      "kncyl": CLYkanan.text,
-      "knaxis": AXISkanan.text,
-      "knadd": ADDkanan.text,
-      "knpd": PDkanan.text,
-      "knseg": SEGkanan.text,
-      "sph": SPH.text,
-      "cyl": CLY.text,
-      "axis": AXIS.text,
-      "add": ADD.text,
-      "pd": PD.text,
-      "seg": SEG.text,
-      "namalensa": controllernamalensa.text,
-      "jenislensa": controllerjenislensa.text,
-    });
-  }
-
-  TextEditingController qty = TextEditingController(text: "0");
-  TextEditingController nama_barang =
-      TextEditingController(text: "Frame dan Lensa");
   TextEditingController id = TextEditingController();
   TextEditingController controllerjenislensa = TextEditingController();
   TextEditingController controllernamalensa = TextEditingController();
@@ -151,7 +54,144 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
   TextEditingController ADD = TextEditingController();
   TextEditingController PD = TextEditingController();
   TextEditingController SEG = TextEditingController();
-  TextEditingController nominal = TextEditingController();
+  TextEditingController nominalFrame = TextEditingController();
+  TextEditingController nominalLensa = TextEditingController();
+
+  String selectedJenisLensa = '';
+  List<dynamic> jenisLensa = ['Progressive', 'Single Vision'];
+
+  List<dynamic> varianLensa = [];
+
+  final _loadHiveProfile = Hive.box('Profile');
+  List<Map<String, dynamic>> _dataProfile = [];
+  List<dynamic> _dataFrame = [];
+  String selectedFrame = '';
+  String minHarga = '';
+
+  List<dynamic> _selectedItems = [];
+
+  int convertIDJenisLensa(String lens) {
+    switch (lens) {
+      case 'Progressive':
+        return 1;
+      case 'Single Vision':
+        return 2;
+      default:
+        return 0;
+    }
+  }
+
+  void submitKeranjang() async {
+    var respone = await http.post(
+      Uri.parse('${Env.URL_PREFIX}api/menuFullset.php'),
+      body: {
+        "type": "insert",
+        "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+        'id_pegawai': _dataProfile[0]['id_pegawai'],
+        "kodef": selectedFrame,
+        'knsph': SPHkanan.text,
+        'kncyl': CLYkanan.text,
+        'knaxis': AXISkanan.text,
+        'krsph': SPH.text,
+        'krcyl': CLY.text,
+        'kraxis': AXIS.text,
+        'knadd': ADDkanan.text,
+        'knpd': PDkanan.text,
+        'knseg': SEGkanan.text,
+        'kradd': ADD.text,
+        'krpd': PD.text,
+        'krseg': SEG.text,
+        'hargalensa': nominalLensa.text,
+        'hargaframe': nominalFrame.text,
+        'total': (int.parse(nominalLensa.text) + int.parse(nominalFrame.text))
+            .toString(),
+        'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
+        'selectedVarian': jsonEncode(_selectedItems).toString(),
+      },
+    );
+
+    print(respone.body);
+    var listD = jsonDecode(respone.body);
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: ((context) {
+        return AlertDialog(
+          title: Text(listD['status']),
+          content: Text(listD['msg']),
+          actions: [
+            TextButton(
+              onPressed: () {
+                listD['status'] == 'Berhasil'
+                    ? Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: ((context) => navbar()),
+                        ),
+                        (route) => false)
+                    : Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      }),
+    );
+  }
+
+  void getVarianLensa() async {
+    final respone = await http.post(
+      Uri.parse('${Env.URL_PREFIX}api/menuLensa.php'),
+      body: {
+        "type": "getLensa",
+        "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+        'id_pegawai': _dataProfile[0]['id_pegawai'],
+      },
+    );
+
+    setState(() {
+      varianLensa = jsonDecode(respone.body);
+    });
+
+    if (respone.statusCode == 200) {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void _refreshItems() {
+    final data = _loadHiveProfile.keys.map((key) {
+      final value = _loadHiveProfile.get(key);
+      return {
+        "key": key,
+        "id_pegawai": value["id_pegawai"],
+        "nama": value["nama"],
+        "alamat": value["alamat"],
+        "notelepon": value["notelepon"],
+        "urlFoto": value["urlFoto"],
+      };
+    }).toList();
+
+    setState(() {
+      _dataProfile = data.reversed.toList();
+    });
+  }
+
+  void _getFrame() async {
+    final respone = await http.post(
+      Uri.parse('${Env.URL_PREFIX}api/menuFrame.php'),
+      body: {
+        "type": "getFrame",
+        "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+        'id_pegawai': _dataProfile[0]['id_pegawai'],
+      },
+    );
+
+    setState(() {
+      _dataFrame = jsonDecode(respone.body);
+    });
+
+    if (respone.statusCode == 200) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,14 +263,83 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
             child: Column(
           children: [
             Container(
-              height: 245,
               width: screenWidth,
               color: color3,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      "Kode Frame",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(11),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x3f000000),
+                            blurRadius: 4,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: DropdownSearch(
+                          onChanged: (value) {
+                            setState(() {
+                              selectedFrame = value;
+                              for (var i = 0; i < _dataFrame.length; i++) {
+                                if (_dataFrame[i]['data']['Id_Bawa'] == value) {
+                                  minHarga =
+                                      'Harga Minimal: ${_dataFrame[i]['data']['harga_jual']}';
+                                }
+                              }
+                            });
+                          },
+                          popupProps: PopupProps.dialog(
+                              title: Container(
+                                alignment: Alignment.center,
+                                height: 50,
+                                child: Text(
+                                  'Pilih Kode Frame',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              searchFieldProps: TextFieldProps(
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(Icons.search),
+                                      hintText: 'Cari Kode Frame')),
+                              fit: FlexFit.loose,
+                              searchDelay: Duration(seconds: 0),
+                              showSearchBox: true),
+                          items: _dataFrame.map((data) {
+                            return data['data']['Id_Bawa'];
+                          }).toList(),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            textAlignVertical: TextAlignVertical.center,
+                            dropdownSearchDecoration: InputDecoration.collapsed(
+                                hintText: selectedFrame),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -261,27 +370,42 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: DropdownSearch<String>(
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration:
-                                          InputDecoration()),
-                              popupProps: PopupProps.menu(
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                disabledItemFn: (String s) => s.startsWith('I'),
-                              ),
-                              items: ["progresive", "single vision"],
+                            child: DropdownSearch(
                               onChanged: (value) {
                                 setState(() {
-                                  controllerjenislensa.text = value.toString();
+                                  selectedJenisLensa = value;
                                 });
-                                print(controllerjenislensa.text);
                               },
+                              popupProps: PopupProps.dialog(
+                                  title: Container(
+                                    alignment: Alignment.center,
+                                    height: 50,
+                                    child: Text(
+                                      'Pilih Jenis Lensa',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  searchFieldProps: TextFieldProps(
+                                      decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.search),
+                                          hintText: 'Cari Jenis Lensa')),
+                                  fit: FlexFit.loose,
+                                  searchDelay: Duration(seconds: 0),
+                                  showSearchBox: false),
+                              items: jenisLensa,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                textAlignVertical: TextAlignVertical.center,
+                                dropdownSearchDecoration:
+                                    InputDecoration.collapsed(
+                                        hintText: selectedJenisLensa),
+                              ),
                             ),
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,42 +423,52 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           height: 10,
                         ),
                         Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0x3f000000),
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                              color: Colors.white,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x3f000000),
+                                blurRadius: 4,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                              left: 20,
+                              right: 20,
+                              bottom: 10,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: DropdownSearch<String>(
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration()),
-                                popupProps: PopupProps.menu(
-                                  fit: FlexFit.loose,
-                                  showSelectedItems: true,
-                                  disabledItemFn: (String s) =>
-                                      s.startsWith('I'),
+                            child: MultiSelectDialogField(
+                                decoration: BoxDecoration(),
+                                dialogHeight: heightPhone * 0.3,
+                                barrierColor: Colors.black.withOpacity(0.5),
+                                isDismissible: false,
+                                chipDisplay: MultiSelectChipDisplay(
+                                  scroll: true,
+                                  scrollBar:
+                                      HorizontalScrollBar(isAlwaysShown: false),
+                                  chipColor: Colors.grey,
+                                  textStyle: TextStyle(color: Colors.white),
                                 ),
-                                items: ["Bluecromic", "Bluray", 'Embo Lali'],
-                                onChanged: (value) {
+                                searchable: true,
+                                title: Text('Pilih Varian Lensa'),
+                                listType: MultiSelectListType.LIST,
+                                items: varianLensa
+                                    .map((e) => MultiSelectItem(
+                                        e['data']['kode_lensa'],
+                                        e['data']['nama_lensa']))
+                                    .toList(),
+                                onConfirm: (items) {
                                   setState(() {
-                                    controllernamalensa.text = value.toString();
+                                    _selectedItems = items;
                                   });
-                                  print(controllernamalensa.text);
-                                },
-                              ),
-                            )),
+                                  print(jsonEncode(_selectedItems));
+                                }),
+                          ),
+                        ),
                       ],
                     )
                   ],
@@ -454,32 +588,40 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: SPHkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
                                         ),
                                         Container(
                                           height: 40,
+                                          alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: CLYkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            cursorColor: Colors.white,
                                           ),
                                         ),
                                         Container(
                                           height: 40,
+                                          alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: AXISkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -544,32 +686,40 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: ADDkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: PDkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            cursorColor: Colors.white,
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: SEGkanan,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -672,32 +822,40 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: SPH,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: CLY,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            cursorColor: Colors.white,
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: AXIS,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -762,32 +920,40 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: ADD,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: PD,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
-                                            cursorColor: Colors.white,
                                           ),
                                         ),
                                         Container(
+                                          alignment: Alignment.center,
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            textAlign: TextAlign.center,
                                             controller: SEG,
-                                            decoration: InputDecoration(
+                                            decoration:
+                                                InputDecoration.collapsed(
                                               hintText: "",
                                             ),
                                           ),
@@ -821,7 +987,7 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Kode Frame",
+                          "Harga Frame",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
@@ -848,8 +1014,9 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              controller: kodeframe,
+                              controller: nominalFrame,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -861,7 +1028,7 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Nominal",
+                          "Harga Lensa",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
@@ -888,8 +1055,9 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: id,
+                              controller: nominalLensa,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -929,19 +1097,8 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                       // adddata();
                       // adddata2();
                       // adddatakeranjang();
-                      _addData({
-                        "kode_barang": autoId().toString(),
-                        "nama_barang": nama_barang.text,
-                        "qty": qty.text,
-                        "value": "0"
-                      });
-                      print(nama_barang.text);
-                      addkeranjang();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => navbar(),
-                          ));
+
+                      submitKeranjang();
                     },
                     child: Text(
                       "Keranjang",
