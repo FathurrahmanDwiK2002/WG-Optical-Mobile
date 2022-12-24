@@ -290,7 +290,9 @@ class _pageFrameState extends State<pageFrame>
                               controller: nominal,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: minHarga,
+                                hintText: minHarga == ''
+                                    ? ""
+                                    : curr.format(int.parse(minHarga)),
                               ),
                             ),
                           ),
@@ -351,89 +353,73 @@ class _pageFrameState extends State<pageFrame>
                   color: color1,
                 ),
                 child: TextButton(
-                    onPressed: () async {
-                      if (selectedFrame != '' && nominal.text.isNotEmpty) {
-                        if (int.parse(nominal.text.replaceAll('.', '')) <
-                            int.parse(minHarga)) {
-                          ArtSweetAlert.show(
-                            context: context,
-                            artDialogArgs: ArtDialogArgs(
-                                type: ArtSweetAlertType.danger,
-                                title: 'Gagal',
-                                onConfirm: () {
-                                  Navigator.of(context).pop();
-                                },
-                                text:
-                                    'Nominal harus lebih dari ${curr.format(int.parse(minHarga))}'),
-                          );
-                        } else {
-                          var respone = await http.post(
-                            Uri.parse('${Env.URL_PREFIX}api/menuFrame.php'),
-                            body: {
-                              "type": "insert",
-                              "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
-                              'id_pegawai': _dataProfile[0]['id_pegawai'],
-                              "kode_frame": selectedFrame,
-                              "harga": nominal.text.replaceAll('.', ''),
-                            },
-                          );
-
-                          var listD = jsonDecode(respone.body);
-
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: ((context) {
-                              return AlertDialog(
-                                title: Text(listD['status']),
-                                content: Text(listD['msg']),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      listD['status'] == 'Berhasil'
-                                          ? Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                    builder: ((context) =>
-                                                        navbar()),
-                                                  ),
-                                                  (route) => false)
-                                          : Navigator.of(context).pop();
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            }),
-                          );
-                        }
-                      } else {
-                        ArtSweetAlert.show(
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                              type: ArtSweetAlertType.danger,
-                              title: 'Gagal',
-                              onConfirm: () {
-                                Navigator.of(context).pop();
-                              },
-                              text: 'Kode Frame dan Nominal harus diisi'),
-                        );
-                      }
-                    },
-                    child: Text(
-                      "Beli",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
+                  onPressed: () {
+                    submitKeranjang();
+                  },
+                  child: Text(
+                    "Beli",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void submitKeranjang() async {
+    String status = 'Error';
+    String msg = '';
+    if (selectedFrame == '') {
+      // kode tidak boleh kosong
+      msg = 'Pilih Kode Frame Terlebih Dahulu';
+    } else if (nominal.text == '') {
+      msg = 'Masukkan Input Harga Frame Terlebih Dahulu';
+    } else if (int.parse(nominal.text.replaceAll('.', '')) <
+        int.parse(minHarga)) {
+      msg = 'Harga Frame harus lebih dari ${curr.format(int.parse(minHarga))}';
+    } else {
+      var respone = await http.post(
+        Uri.parse('${Env.URL_PREFIX}api/menuFrame.php'),
+        body: {
+          "type": "insert",
+          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+          'id_pegawai': _dataProfile[0]['id_pegawai'],
+          "kode_frame": selectedFrame,
+          "harga": nominal.text.replaceAll('.', ''),
+        },
+      );
+      print(respone.body);
+      status = 'Sukses';
+      var listD = jsonDecode(respone.body);
+      msg = listD['msg'];
+    }
+
+    ArtSweetAlert.show(
+      barrierDismissible: status == 'Error' ? true : false,
+      context: context,
+      artDialogArgs: ArtDialogArgs(
+          type: status == 'Error'
+              ? ArtSweetAlertType.danger
+              : ArtSweetAlertType.success,
+          title: status,
+          onConfirm: () {
+            status == 'Sukses'
+                ? Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: ((context) => navbar()),
+                    ),
+                    (route) => false)
+                : Navigator.of(context).pop();
+          },
+          text: msg),
     );
   }
 
