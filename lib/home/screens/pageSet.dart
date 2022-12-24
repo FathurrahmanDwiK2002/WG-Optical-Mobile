@@ -2,15 +2,20 @@
 
 import 'dart:convert';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
 import 'package:wg_optical/models/warna.dart';
 import 'package:http/http.dart' as http;
 import 'package:wg_optical/env/env.dart';
+
+import '../../env/currency.dart';
 
 class pageSet extends StatefulWidget {
   const pageSet({super.key});
@@ -82,60 +87,95 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
   }
 
   void submitKeranjang() async {
-    var respone = await http.post(
-      Uri.parse('${Env.URL_PREFIX}api/menuFullset.php'),
-      body: {
-        "type": "insert",
-        "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
-        'id_pegawai': _dataProfile[0]['id_pegawai'],
-        "kodef": selectedFrame,
-        'knsph': SPHkanan.text,
-        'kncyl': CLYkanan.text,
-        'knaxis': AXISkanan.text,
-        'krsph': SPH.text,
-        'krcyl': CLY.text,
-        'kraxis': AXIS.text,
-        'knadd': ADDkanan.text,
-        'knpd': PDkanan.text,
-        'knseg': SEGkanan.text,
-        'kradd': ADD.text,
-        'krpd': PD.text,
-        'krseg': SEG.text,
-        'hargalensa': nominalLensa.text,
-        'hargaframe': nominalFrame.text,
-        'total': (int.parse(nominalLensa.text) + int.parse(nominalFrame.text))
-            .toString(),
-        'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
-        'selectedVarian': jsonEncode(_selectedItems).toString(),
-      },
-    );
+    String status = 'Error';
+    String msg = '';
+    if (selectedFrame == '') {
+      // kode tidak boleh kosong
+      msg = 'Pilih Kode Frame Terlebih Dahulu';
+    } else if (selectedJenisLensa == '') {
+      // jenis lensa tidak boleh kosong
+      msg = 'Pilih Jenis Lensa Terlebih Dahulu';
+    } else if (_selectedItems.length == 0) {
+      // pilih varian lensa
+      msg = 'Pilih Varian Lensa Terlebih Dahulu';
+    } else if (SPHkanan.text == '' ||
+        CLYkanan.text == '' ||
+        AXISkanan.text == '' ||
+        ADDkanan.text == '' ||
+        PDkanan.text == '' ||
+        SEGkanan.text == '') {
+      // lengkapi field resep kanan
+      msg = 'Masukkan Input Detail Lensa Kanan Terlebih Dahulu';
+    } else if (SPH.text == '' ||
+        CLY.text == '' ||
+        AXIS.text == '' ||
+        ADD.text == '' ||
+        PD.text == '' ||
+        SEG.text == '') {
+      // lengkapi field resep kiri
+      msg = 'Masukkan Input Detail Lensa Kiri Terlebih Dahulu';
+    } else if (nominalFrame.text == '') {
+      msg = 'Masukkan Input Harga Frame Terlebih Dahulu';
+    } else if (nominalLensa.text == '') {
+      msg = 'Masukkan Input Harga Lensa Terlebih Dahulu';
+    } else if (int.parse(nominalFrame.text.replaceAll('.', '')) <
+        int.parse(minHarga)) {
+      msg = 'Harga Frame harus lebih dari ${curr.format(int.parse(minHarga))}';
+    } else {
+      var respone = await http.post(
+        Uri.parse('${Env.URL_PREFIX}api/menuFullset.php'),
+        body: {
+          "type": "insert",
+          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+          'id_pegawai': _dataProfile[0]['id_pegawai'],
+          "kodef": selectedFrame,
+          'knsph': SPHkanan.text,
+          'kncyl': CLYkanan.text,
+          'knaxis': AXISkanan.text,
+          'krsph': SPH.text,
+          'krcyl': CLY.text,
+          'kraxis': AXIS.text,
+          'knadd': ADDkanan.text,
+          'knpd': PDkanan.text,
+          'knseg': SEGkanan.text,
+          'kradd': ADD.text,
+          'krpd': PD.text,
+          'krseg': SEG.text,
+          'hargalensa': nominalLensa.text.replaceAll('.', ''),
+          'hargaframe': nominalFrame.text.replaceAll('.', ''),
+          'total': (int.parse(nominalLensa.text.replaceAll('.', '')) +
+                  int.parse(nominalFrame.text.replaceAll('.', '')))
+              .toString(),
+          'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
+          'selectedVarian': jsonEncode(_selectedItems).toString(),
+        },
+      );
 
-    print(respone.body);
-    var listD = jsonDecode(respone.body);
+      print(respone.body);
+      status = 'Sukses';
+      var listD = jsonDecode(respone.body);
+      msg = listD['msg'];
 
-    showDialog(
-      barrierDismissible: false,
+    }
+
+    ArtSweetAlert.show(
+      barrierDismissible: status == 'Error' ? true : false,
       context: context,
-      builder: ((context) {
-        return AlertDialog(
-          title: Text(listD['status']),
-          content: Text(listD['msg']),
-          actions: [
-            TextButton(
-              onPressed: () {
-                listD['status'] == 'Berhasil'
-                    ? Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: ((context) => navbar()),
-                        ),
-                        (route) => false)
-                    : Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      }),
+      artDialogArgs: ArtDialogArgs(
+          type: status == 'Error'
+              ? ArtSweetAlertType.danger
+              : ArtSweetAlertType.success,
+          title: status,
+          onConfirm: () {
+            status == 'Sukses'
+                ? Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: ((context) => navbar()),
+                    ),
+                    (route) => false)
+                : Navigator.of(context).pop();
+          },
+          text: msg),
     );
   }
 
@@ -305,7 +345,7 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                               for (var i = 0; i < _dataFrame.length; i++) {
                                 if (_dataFrame[i]['data']['Id_Bawa'] == value) {
                                   minHarga =
-                                      'Harga Minimal: ${_dataFrame[i]['data']['harga_jual']}';
+                                      '${_dataFrame[i]['data']['harga_jual']}';
                                 }
                               }
                             });
@@ -1016,10 +1056,17 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                InputFormatCurrency(),
+                              ],
                               controller: nominalFrame,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: "",
+                                hintText: minHarga == ''
+                                    ? ""
+                                    : curr.format(int.parse(minHarga)),
                               ),
                             ),
                           ),
@@ -1057,6 +1104,11 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                InputFormatCurrency(),
+                              ],
                               controller: nominalLensa,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -1118,4 +1170,6 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+  final curr = NumberFormat("###,###.###", "en_us");
 }
