@@ -3,9 +3,12 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:wg_optical/home/screens/pageCart.dart';
@@ -13,6 +16,7 @@ import 'package:wg_optical/models/warna.dart';
 import 'package:http/http.dart' as http;
 import 'package:wg_optical/env/env.dart';
 
+import '../../env/currency.dart';
 import '../widget/navbar.dart';
 
 class pageLensa extends StatefulWidget {
@@ -856,6 +860,11 @@ class _pageLensaState extends State<pageLensa>
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                InputFormatCurrency(),
+                              ],
                               controller: nominal,
                               decoration: InputDecoration.collapsed(
                                 hintText: "",
@@ -893,68 +902,8 @@ class _pageLensaState extends State<pageLensa>
                   color: Color(0xff3a3a3a),
                 ),
                 child: TextButton(
-                    onPressed: () async {
-                      var respone = await http.post(
-                        Uri.parse('${Env.URL_PREFIX}api/menuLensa.php'),
-                        body: {
-                          "type": "insert",
-                          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
-                          'id_pegawai': _dataProfile[0]['id_pegawai'],
-                          'knsph': SPHkanan.text,
-                          'kncyl': CLYkanan.text,
-                          'knaxis': AXISkanan.text,
-                          'krsph': SPH.text,
-                          'krcyl': CLY.text,
-                          'kraxis': AXIS.text,
-                          'knadd': ADDkanan.text,
-                          'knpd': PDkanan.text,
-                          'knseg': SEGkanan.text,
-                          'kradd': ADD.text,
-                          'krpd': PD.text,
-                          'krseg': SEG.text,
-                          'harga': nominal.text,
-                          'jenislensa': convertIDJenisLensa(selectedJenisLensa)
-                              .toString(),
-                          'selectedVarian':
-                              jsonEncode(_selectedItems).toString(),
-                        },
-                      );
-
-                      print(respone.body);
-                      var listD = jsonDecode(respone.body);
-
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: ((context) {
-                          return AlertDialog(
-                            title: Text(listD['status']),
-                            content: Text(listD['msg']),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  listD['status'] == 'Berhasil'
-                                      ? Navigator.of(context)
-                                          .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    navbar()),
-                                              ),
-                                              (route) => false)
-                                      : Navigator.of(context).pop();
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        }),
-                      );
-
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => pageCart(),
-                      //     ));
+                    onPressed: () {
+                      submitKeranjang();
                     },
                     child: Text(
                       "Keranjang",
@@ -973,6 +922,85 @@ class _pageLensaState extends State<pageLensa>
     );
   }
 
+  void submitKeranjang() async {
+    String status = 'Error';
+    String msg = '';
+    if (selectedJenisLensa == '') {
+      // jenis lensa tidak boleh kosong
+      msg = 'Pilih Jenis Lensa Terlebih Dahulu';
+    } else if (_selectedItems.length == 0) {
+      // pilih varian lensa
+      msg = 'Pilih Varian Lensa Terlebih Dahulu';
+    } else if (SPHkanan.text == '' ||
+        CLYkanan.text == '' ||
+        AXISkanan.text == '' ||
+        ADDkanan.text == '' ||
+        PDkanan.text == '' ||
+        SEGkanan.text == '') {
+      // lengkapi field resep kanan
+      msg = 'Masukkan Input Detail Lensa Kanan Terlebih Dahulu';
+    } else if (SPH.text == '' ||
+        CLY.text == '' ||
+        AXIS.text == '' ||
+        ADD.text == '' ||
+        PD.text == '' ||
+        SEG.text == '') {
+      // lengkapi field resep kiri
+      msg = 'Masukkan Input Detail Lensa Kiri Terlebih Dahulu';
+    } else if (nominal.text == '') {
+      msg = 'Masukkan Input Harga Lensa Terlebih Dahulu';
+    } else {
+      var respone = await http.post(
+        Uri.parse('${Env.URL_PREFIX}api/menuLensa.php'),
+        body: {
+          "type": "insert",
+          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+          'id_pegawai': _dataProfile[0]['id_pegawai'],
+          'knsph': SPHkanan.text,
+          'kncyl': CLYkanan.text,
+          'knaxis': AXISkanan.text,
+          'krsph': SPH.text,
+          'krcyl': CLY.text,
+          'kraxis': AXIS.text,
+          'knadd': ADDkanan.text,
+          'knpd': PDkanan.text,
+          'knseg': SEGkanan.text,
+          'kradd': ADD.text,
+          'krpd': PD.text,
+          'krseg': SEG.text,
+          'harga': nominal.text.replaceAll('.', ''),
+          'jenislensa': convertIDJenisLensa(selectedJenisLensa).toString(),
+          'selectedVarian': jsonEncode(_selectedItems).toString(),
+        },
+      );
+
+      print(respone.body);
+      status = 'Sukses';
+      var listD = jsonDecode(respone.body);
+      msg = listD['msg'];
+    }
+
+    ArtSweetAlert.show(
+      barrierDismissible: status == 'Error' ? true : false,
+      context: context,
+      artDialogArgs: ArtDialogArgs(
+          type: status == 'Error'
+              ? ArtSweetAlertType.danger
+              : ArtSweetAlertType.success,
+          title: status,
+          onConfirm: () {
+            status == 'Sukses'
+                ? Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: ((context) => navbar()),
+                    ),
+                    (route) => false)
+                : Navigator.of(context).pop();
+          },
+          text: msg),
+    );
+  }
+
   int convertIDJenisLensa(String lens) {
     switch (lens) {
       case 'Progressive':
@@ -983,4 +1011,6 @@ class _pageLensaState extends State<pageLensa>
         return 0;
     }
   }
+
+  final curr = NumberFormat("###,###.###", "en_us");
 }
