@@ -155,7 +155,6 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
       status = 'Sukses';
       var listD = jsonDecode(respone.body);
       msg = listD['msg'];
-
     }
 
     ArtSweetAlert.show(
@@ -631,6 +630,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SPHkanan,
                                             decoration:
@@ -644,6 +651,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: CLYkanan,
                                             decoration:
@@ -657,6 +672,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: AXISkanan,
                                             decoration:
@@ -729,6 +752,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: ADDkanan,
                                             decoration:
@@ -742,6 +773,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: PDkanan,
                                             decoration:
@@ -755,6 +794,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SEGkanan,
                                             decoration:
@@ -868,6 +915,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SPH,
                                             decoration:
@@ -881,6 +936,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: CLY,
                                             decoration:
@@ -894,6 +957,15 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                              
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: AXIS,
                                             decoration:
@@ -966,6 +1038,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: ADD,
                                             decoration:
@@ -979,6 +1059,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: PD,
                                             decoration:
@@ -992,6 +1080,14 @@ class _pageSetState extends State<pageSet> with SingleTickerProviderStateMixin {
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SEG,
                                             decoration:

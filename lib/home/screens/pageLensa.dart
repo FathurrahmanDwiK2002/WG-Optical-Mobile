@@ -434,6 +434,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SPHkanan,
                                             decoration:
@@ -447,6 +455,14 @@ class _pageLensaState extends State<pageLensa>
                                           alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: CLYkanan,
                                             decoration:
@@ -460,6 +476,14 @@ class _pageLensaState extends State<pageLensa>
                                           alignment: Alignment.center,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: AXISkanan,
                                             decoration:
@@ -532,6 +556,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: ADDkanan,
                                             decoration:
@@ -545,6 +577,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: PDkanan,
                                             decoration:
@@ -558,6 +598,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SEGkanan,
                                             decoration:
@@ -671,6 +719,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SPH,
                                             decoration:
@@ -684,6 +740,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: CLY,
                                             decoration:
@@ -697,6 +761,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: AXIS,
                                             decoration:
@@ -769,6 +841,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: ADD,
                                             decoration:
@@ -782,6 +862,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: PD,
                                             decoration:
@@ -795,6 +883,14 @@ class _pageLensaState extends State<pageLensa>
                                           height: 40,
                                           width: screenWidth * 0.11,
                                           child: TextField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r"[0-9,]")),
+                                            ],
                                             textAlign: TextAlign.center,
                                             controller: SEG,
                                             decoration:
