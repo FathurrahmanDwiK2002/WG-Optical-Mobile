@@ -2,9 +2,12 @@
 
 import 'dart:convert';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:wg_optical/env/currency.dart';
+import 'package:wg_optical/home/screens/pembayaran.dart';
 import '../../env/env.dart';
 import '../../models/warna.dart';
 
@@ -14,15 +17,45 @@ class cartPage extends StatefulWidget {
 }
 
 class _cartPageState extends State<cartPage> {
+  final _loadHiveProfile = Hive.box('Profile');
+  List<Map<String, dynamic>> _dataProfile = [];
+
   Future<List> getData() async {
     var response = await http.post(
       Uri.parse('${Env.URL_PREFIX}api/getKeranjang.php'),
       body: {
         "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+        'id_pegawai': _dataProfile[0]['id_pegawai'],
       },
     );
 
+    print(jsonDecode(response.body));
+
     return jsonDecode(response.body);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshItems();
+  }
+
+  void _refreshItems() {
+    final data = _loadHiveProfile.keys.map((key) {
+      final value = _loadHiveProfile.get(key);
+      return {
+        "key": key,
+        "id_pegawai": value["id_pegawai"],
+        "nama": value["nama"],
+        "alamat": value["alamat"],
+        "notelepon": value["notelepon"],
+        "urlFoto": value["urlFoto"],
+      };
+    }).toList();
+
+    setState(() {
+      _dataProfile = data.reversed.toList();
+    });
   }
 
   @override
@@ -127,9 +160,16 @@ class _cartPageState extends State<cartPage> {
                     return snaphot.hasData
                         ? ItemList(
                             list: snaphot.requireData,
+                            id_pegawai: _dataProfile[0]['id_pegawai'],
                           )
                         : Center(
-                            child: CircularProgressIndicator(),
+                            child: Text(
+                              'No Data',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                              ),
+                            ),
                           );
                   },
                 ),
@@ -144,7 +184,8 @@ class _cartPageState extends State<cartPage> {
 
 class ItemList extends StatefulWidget {
   final List list;
-  ItemList({required this.list});
+  String id_pegawai;
+  ItemList({required this.list, required this.id_pegawai});
 
   @override
   State<ItemList> createState() => _ItemListState();
@@ -152,7 +193,9 @@ class ItemList extends StatefulWidget {
 
 class _ItemListState extends State<ItemList> {
   final List _isCheck = [];
+  final List _idSelected = [];
   bool checkAll = false;
+  int total = 0;
 
   @override
   void initState() {
@@ -207,8 +250,30 @@ class _ItemListState extends State<ItemList> {
                                 onChanged: (bool? value) {
                                   setState(() {
                                     _isCheck[index] = !_isCheck[index];
+
+                                    if (_idSelected.contains(
+                                        currentItem['data']['kode_pesanan'])) {
+                                      _idSelected.remove(
+                                          currentItem['data']['kode_pesanan']);
+                                      total = total -
+                                          int.parse(
+                                              currentItem['data']['total']);
+                                    } else {
+                                      _idSelected.add(
+                                          currentItem['data']['kode_pesanan']);
+                                      total = total +
+                                          int.parse(
+                                              currentItem['data']['total']);
+                                    }
+
+                                    if (_isCheck.contains(false)) {
+                                      checkAll = false;
+                                    } else {
+                                      checkAll = true;
+                                    }
                                   });
-                                  print(value);
+                                  print(_idSelected);
+                                  print(total);
                                 },
                               ),
                               Container(
@@ -220,7 +285,6 @@ class _ItemListState extends State<ItemList> {
                                     image: NetworkImage(
                                         '${Env.URL_PREFIX}assets/images/heroimg.png'),
                                     fit: BoxFit.cover,
-                                    
                                   ),
                                 ),
                               ),
@@ -319,10 +383,27 @@ class _ItemListState extends State<ItemList> {
                         onChanged: (bool? value) {
                           setState(() {
                             checkAll = value!;
-                            for (var i = 0; i < widget.list.length; i++) {
-                              _isCheck[i] = value;
+
+                            if (checkAll) {
+                              _idSelected.clear();
+                              total = 0;
+
+                              for (var i = 0; i < widget.list.length; i++) {
+                                _isCheck[i] = value;
+                                _idSelected.add(
+                                    widget.list[i]['data']['kode_pesanan']);
+                                total = total +
+                                    int.parse(widget.list[i]['data']['total']);
+                              }
+                            } else {
+                              for (var i = 0; i < widget.list.length; i++) {
+                                _isCheck[i] = value;
+                              }
+                              total = 0;
+                              _idSelected.clear();
                             }
                           });
+                          print(_idSelected);
                         },
                       ),
                       SizedBox(
@@ -344,7 +425,7 @@ class _ItemListState extends State<ItemList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Total Barang :",
+                            "Total :",
                             style: TextStyle(
                               color: Color(0xff3a3a3a),
                               fontSize: 12,
@@ -356,7 +437,9 @@ class _ItemListState extends State<ItemList> {
                             height: 5,
                           ),
                           Text(
-                            widget.list.length.toString(),
+                            CurrencyFormat.convertToIdr(total, 2)
+                                .toString()
+                                .replaceAll(',00', ''),
                             style: TextStyle(
                               color: Color(0xff3a3a3a),
                               fontSize: 12,
@@ -369,7 +452,29 @@ class _ItemListState extends State<ItemList> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_idSelected.length == 0) {
+                        ArtSweetAlert.show(
+                          context: context,
+                          artDialogArgs: ArtDialogArgs(
+                              type: ArtSweetAlertType.warning,
+                              title: 'Informasi',
+                              onConfirm: () {
+                                Navigator.of(context).pop();
+                              },
+                              text: "Pilih salah satu barang terlebih dahulu"),
+                        );
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => pembayaran(
+                                      data: _idSelected,
+                                      total: total,
+                                      id_pegawai: widget.id_pegawai,
+                                    ))));
+                      }
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 10),

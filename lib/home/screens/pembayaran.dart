@@ -1,16 +1,27 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_this, prefer_typing_uninitialized_variables, camel_case_types, prefer_final_fields, unused_local_variable, sized_box_for_whitespace, avoid_print
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_this, prefer_typing_uninitialized_variables, camel_case_types, prefer_final_fields, unused_local_variable, sized_box_for_whitespace, avoid_print, dead_code
 
+import 'dart:convert';
+
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:wg_optical/home/widget/navbar.dart';
 import 'package:wg_optical/models/warna.dart';
+import 'package:http/http.dart' as http;
 
+import '../../env/currency.dart';
+import '../../env/env.dart';
 
 class pembayaran extends StatefulWidget {
-  const pembayaran({super.key, this.restorationId});
-
+  const pembayaran(
+      {super.key, this.restorationId, this.data, this.total, this.id_pegawai});
+  final List? data;
   final String? restorationId;
+  final int? total;
+  final String? id_pegawai;
 
   @override
   State<pembayaran> createState() => _pembayaranState();
@@ -23,7 +34,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
   String? get restorationId => widget.restorationId;
 
   final RestorableDateTime _selectedDate =
-      RestorableDateTime(DateTime(2021, 7, 25));
+      RestorableDateTime(DateTime.now());
   late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
       RestorableRouteFuture<DateTime?>(
     onComplete: _selectDate,
@@ -45,9 +56,9 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
         return DatePickerDialog(
           restorationId: 'date_picker_dialog',
           initialEntryMode: DatePickerEntryMode.calendarOnly,
-          initialDate: DateTime.fromMillisecondsSinceEpoch(arguments! as int),
-          firstDate: DateTime(2021),
-          lastDate: DateTime(2022),
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
+          lastDate: DateTime(DateTime.now().year + 2),
         );
       },
     );
@@ -66,50 +77,34 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
         _selectedDate.value = newSelectedDate;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-              'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
+              'Selected: ${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}'),
         ));
       });
+
     }
   }
 
-  List<Map<String, dynamic>> _Data = [];
-  var _account = Hive.box('Data');
-  late TabController tabController;
-  List<dynamic> productTypesLensa = [];
-  List<dynamic> DP = [];
+  var txt_nama = TextEditingController();
+  var txt_nohp = TextEditingController();
+  var txt_pekerjaan = TextEditingController();
+  var txt_instansi = TextEditingController();
+  var txt_kecamatan = TextEditingController();
+  var txt_desa = TextEditingController();
+  var txt_alamat = TextEditingController();
+  String txt_pembayaran = '';
+  String txt_tgl = '';
+  var txt_bayar = TextEditingController();
+  final curr = NumberFormat("###,###.###", "en_us");
 
-  String? countryId;
-  String? countryDp;
-  void _refreshItems() {
-    final data = _account.keys.map((key) {
-      final value = _account.get(key);
-      return {"key": key, "name": value["name"], "kode": value['kode']};
-    }).toList();
-
-    setState(() {
-      _Data = data.reversed.toList();
-      // we use "reversed" to sort items in order from the latest to the oldest
-    });
-  }
+  bool isCicilan = false;
 
   @override
   void initState() {
     super.initState();
-    this.productTypesLensa = [
-      {"id": "1", "label": "Simple"},
-      {"id": "2", "label": "Variable"}
-    ];
-
-    this.DP = [
-      {"id": "1", "label": "1"},
-      {"id": "2", "label": "2"}
-    ];
-    _refreshItems();
   }
 
   @override
   void dispose() {
-    tabController.dispose();
     super.dispose();
   }
 
@@ -117,6 +112,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
     final appbar = AppBar(
       backgroundColor: Color(0xfff0f0f0),
       elevation: 0,
@@ -171,8 +167,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontFamily: "Montserrat",
-              fontWeight: FontWeight.w700,
+              fontFamily: "Montserrat-Bold",
             ),
           )),
       body: Container(
@@ -209,8 +204,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                   style: TextStyle(
                                     color: Color(0xff4e4e4e),
                                     fontSize: 16,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Montserrat-SemiBold",
                                   ),
                                 ),
                                 onPressed: () {
@@ -224,128 +218,129 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                         child: Center(
                                           child: ListView.builder(
                                               // the list of items
-                                              itemCount: _Data.length,
+                                              itemCount: 0,
                                               itemBuilder: (_, index) {
-                                                final currentItem =
-                                                    _Data[index];
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    width: 353,
-                                                    height: 72,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color:
-                                                              Color(0x3f000000),
-                                                          blurRadius: 4,
-                                                          offset: Offset(2, 2),
-                                                        ),
-                                                      ],
-                                                      color: Colors.white,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                width: 60,
-                                                                height: 60,
-                                                                child: Stack(
-                                                                  children: [
-                                                                    Container(
-                                                                      color: Colors
-                                                                          .amber,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.04,
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.2,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      top: 10),
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        currentItem['name']
-                                                                            .toString(),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Color(0xff3a3a3a),
-                                                                          fontSize:
-                                                                              16,
-                                                                          fontFamily:
-                                                                              "Montserrat",
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
-                                                                      ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Text(
-                                                                            'Kode : ',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color(0xff3a3a3a),
-                                                                              fontSize: 12,
-                                                                              fontFamily: "Montserrat",
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),
-                                                                          ),
-                                                                          Text(
-                                                                            currentItem['kode'],
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color(0xff3a3a3a),
-                                                                              fontSize: 12,
-                                                                              fontFamily: "Montserrat",
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
+                                                return Container();
+                                                // final currentItem =
+                                                //     _Data[index];
+                                                // return Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.all(8.0),
+                                                //   child: Container(
+                                                //     width: 353,
+                                                //     height: 72,
+                                                //     decoration: BoxDecoration(
+                                                //       borderRadius:
+                                                //           BorderRadius.circular(
+                                                //               8),
+                                                //       boxShadow: [
+                                                //         BoxShadow(
+                                                //           color:
+                                                //               Color(0x3f000000),
+                                                //           blurRadius: 4,
+                                                //           offset: Offset(2, 2),
+                                                //         ),
+                                                //       ],
+                                                //       color: Colors.white,
+                                                //     ),
+                                                //     child: Padding(
+                                                //       padding:
+                                                //           const EdgeInsets.all(
+                                                //               8.0),
+                                                //       child: Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .spaceBetween,
+                                                //         children: [
+                                                //           Row(
+                                                //             children: [
+                                                //               Container(
+                                                //                 width: 60,
+                                                //                 height: 60,
+                                                //                 child: Stack(
+                                                //                   children: [
+                                                //                     Container(
+                                                //                       color: Colors
+                                                //                           .amber,
+                                                //                     ),
+                                                //                   ],
+                                                //                 ),
+                                                //               ),
+                                                //               SizedBox(
+                                                //                 width: MediaQuery.of(
+                                                //                             context)
+                                                //                         .size
+                                                //                         .width *
+                                                //                     0.04,
+                                                //               ),
+                                                //               Container(
+                                                //                 width: MediaQuery.of(
+                                                //                             context)
+                                                //                         .size
+                                                //                         .width *
+                                                //                     0.2,
+                                                //                 child: Padding(
+                                                //                   padding: const EdgeInsets
+                                                //                           .only(
+                                                //                       top: 10),
+                                                //                   child: Column(
+                                                //                     mainAxisAlignment:
+                                                //                         MainAxisAlignment
+                                                //                             .start,
+                                                //                     crossAxisAlignment:
+                                                //                         CrossAxisAlignment
+                                                //                             .start,
+                                                //                     children: [
+                                                //                       Text(
+                                                //                         currentItem['name']
+                                                //                             .toString(),
+                                                //                         style:
+                                                //                             TextStyle(
+                                                //                           color:
+                                                //                               Color(0xff3a3a3a),
+                                                //                           fontSize:
+                                                //                               16,
+                                                //                           fontFamily:
+                                                //                               "Montserrat",
+                                                //                           fontWeight:
+                                                //                               FontWeight.w600,
+                                                //                         ),
+                                                //                       ),
+                                                //                       Row(
+                                                //                         children: [
+                                                //                           Text(
+                                                //                             'Kode : ',
+                                                //                             style:
+                                                //                                 TextStyle(
+                                                //                               color: Color(0xff3a3a3a),
+                                                //                               fontSize: 12,
+                                                //                               fontFamily: "Montserrat",
+                                                //                               fontWeight: FontWeight.w500,
+                                                //                             ),
+                                                //                           ),
+                                                //                           Text(
+                                                //                             currentItem['kode'],
+                                                //                             style:
+                                                //                                 TextStyle(
+                                                //                               color: Color(0xff3a3a3a),
+                                                //                               fontSize: 12,
+                                                //                               fontFamily: "Montserrat",
+                                                //                               fontWeight: FontWeight.w500,
+                                                //                             ),
+                                                //                           ),
+                                                //                         ],
+                                                //                       ),
+                                                //                     ],
+                                                //                   ),
+                                                //                 ),
+                                                //               ),
+                                                //             ],
+                                                //           ),
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // );
                                               }),
                                         ),
                                       );
@@ -353,9 +348,14 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                   );
                                 },
                               ),
-                              Icon(
-                                Icons.arrow_circle_right_rounded,
-                                size: 34,
+                              IconButton(
+                                onPressed: () {
+                                  print(widget.data);
+                                },
+                                icon: Icon(
+                                  Icons.arrow_circle_right_rounded,
+                                  size: 34,
+                                ),
                               )
                             ],
                           ),
@@ -371,8 +371,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 16,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-Bold",
                           ),
                         ),
                         SizedBox(
@@ -383,8 +382,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -406,8 +404,9 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_nama,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -426,8 +425,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -449,8 +447,10 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_nohp,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -469,8 +469,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -492,8 +491,9 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_pekerjaan,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -512,8 +512,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -535,8 +534,9 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_instansi,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -555,8 +555,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 16,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-Bold",
                           ),
                         ),
                         SizedBox(
@@ -567,8 +566,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -590,8 +588,47 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_kecamatan,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "",
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Desa",
+                          style: TextStyle(
+                            color: Color(0xff373f47),
+                            fontSize: 15,
+                            fontFamily: "Montserrat-SemiBold",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x3f000000),
+                                blurRadius: 4,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: TextField(
+                              controller: txt_desa,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -605,8 +642,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
@@ -628,8 +664,9 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextField(
-                              // controller: kodeframe,
+                              controller: txt_alamat,
                               decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "",
                               ),
                             ),
@@ -648,8 +685,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 16,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "Montserrat-Bold",
                           ),
                         ),
                         SizedBox(
@@ -660,93 +696,56 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                           style: TextStyle(
                             color: Color(0xff373f47),
                             fontSize: 15,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat-SemiBold",
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0x3f000000),
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: DropdownSearch<String>(
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration()),
-                                popupProps: PopupProps.menu(
-                                  fit: FlexFit.loose,
-                                  showSelectedItems: true,
-                                  disabledItemFn: (String s) =>
-                                      s.startsWith('I'),
-                                ),
-                                items: ["Lunas", "Pembayaran"],
-                                onChanged: (value) {
-                                  setState(() {
-                                    anu = value;
-                                    print(value);
-                                  });
-                                },
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x3f000000),
+                                blurRadius: 4,
+                                offset: Offset(2, 2),
                               ),
-                            )),
-                        anu == "Lunas"
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: DropdownSearch<String>(
+                              selectedItem: 'Lunas',
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                border: InputBorder.none,
+                              )),
+                              popupProps: PopupProps.dialog(
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                disabledItemFn: (String s) => s.startsWith('I'),
+                              ),
+                              items: ["Lunas", "Cicilan"],
+                              onChanged: (value) {
+                                setState(() {
+                                  txt_pembayaran = value!;
+                                  if (txt_pembayaran == "Cicilan") {
+                                    isCicilan = true;
+                                  } else {
+                                    isCicilan = false;
+                                  }
+                                });
+                                print(isCicilan);
+                              },
+                            ),
+                          ),
+                        ),
+                        isCicilan
                             ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    "Pembayaran",
-                                    style: TextStyle(
-                                      color: Color(0xff373f47),
-                                      fontSize: 15,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(11),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0x3f000000),
-                                          blurRadius: 4,
-                                          offset: Offset(2, 2),
-                                        ),
-                                      ],
-                                      color: Colors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: TextField(
-                                        // controller: kodeframe,
-                                        decoration: InputDecoration(
-                                          hintText: "",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
@@ -757,8 +756,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                     style: TextStyle(
                                       color: Color(0xff373f47),
                                       fontSize: 15,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Montserrat-SemiBold",
                                     ),
                                   ),
                                   SizedBox(
@@ -786,7 +784,7 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                             padding: const EdgeInsets.only(
                                                 left: 20, top: 15, bottom: 15),
                                             child: Text(
-                                                '${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
+                                                '${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}'),
                                           ),
                                         ),
                                         onTap: () {
@@ -798,12 +796,11 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                     height: 20,
                                   ),
                                   Text(
-                                    "Depan Pembayaran",
+                                    "Total Bayar",
                                     style: TextStyle(
                                       color: Color(0xff373f47),
                                       fontSize: 15,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Montserrat-SemiBold",
                                     ),
                                   ),
                                   SizedBox(
@@ -825,8 +822,59 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: TextField(
-                                        // controller: kodeframe,
+                                        controller: txt_bayar,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    "Total Bayar",
+                                    style: TextStyle(
+                                      color: Color(0xff373f47),
+                                      fontSize: 15,
+                                      fontFamily: "Montserrat-SemiBold",
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(11),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0x3f000000),
+                                          blurRadius: 4,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: TextField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                          InputFormatCurrency(),
+                                        ],
+                                        controller: txt_bayar,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
                                           hintText: "",
                                         ),
                                       ),
@@ -865,11 +913,12 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
                 ),
                 child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => navbar(),
-                          ));
+                      submitTransaksi();
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => navbar(),
+                      //     ));
                     },
                     child: Text(
                       "Lanjut Proses",
@@ -885,6 +934,91 @@ class _pembayaranState extends State<pembayaran> with RestorationMixin {
           ),
         ),
       ),
+    );
+  }
+
+  void submitTransaksi() async {
+    String status = 'Error';
+    String msg = '';
+    if (txt_nama.text == '') {
+      //
+      msg = 'Input Nama Harus Diisi';
+    } else if (txt_nohp.text == '') {
+      //
+      msg = 'Input No Telepon Harus Diisi';
+    } else if (txt_pekerjaan.text == '') {
+      //
+      msg = 'Input Pekerjaan Harus Diisi';
+    } else if (txt_instansi.text == '') {
+      //
+      msg = 'Input Instansi Harus Diisi';
+    } else if (txt_kecamatan.text == '') {
+      //
+      msg = 'Input Kecamatan Harus Diisi';
+    } else if (txt_desa.text == '') {
+      //
+      msg = 'Input Desa Harus Diisi';
+    } else if (txt_alamat.text == '') {
+      //
+      msg = 'Input Alamat Harus Diisi';
+    } else if (txt_pembayaran == '') {
+      //
+      msg = 'Pilih Opsi Pembayaran Terlebih Dahulu';
+    } else if (txt_bayar.text == '') {
+      // pilih varian lensa
+      msg = 'Input Total Bayar Harus Diisi';
+    } else if(int.parse(txt_bayar.text.replaceAll('.', '')) < widget.total!){
+      msg = 'Total Bayar Harus Lebih Dari ${curr.format(widget.total)}';
+    } else {
+      int kembalian = 0;
+      if(txt_pembayaran == 'Lunas'){
+        kembalian = int.parse(txt_bayar.text.replaceAll('.', '')) - widget.total!;
+      }
+      var respone = await http.post(
+        Uri.parse('${Env.URL_PREFIX}api/transaksi.php'),
+        body: {
+          "type": "insert",
+          "apikey": "aoi12j1h7dwgopticalw1dggwuawdki",
+          'txt_nama': txt_nama.text,
+          'txt_kecamatan': txt_kecamatan.text,
+          'txt_desa': txt_desa.text,
+          'txt_alamat': txt_alamat.text,
+          'txt_pekerjaan': txt_pekerjaan.text,
+          'txt_instansi': txt_instansi.text,
+          'data': json.encode(widget.data),
+          'id_pegawai': widget.id_pegawai,
+          'total': widget.total.toString(),
+          'total_harga': txt_bayar.text.replaceAll('.', ''),
+          'kembalian': kembalian.toString(),
+          'proses_pembayaran': txt_pembayaran == 'Lunas' ? '1' : '2',
+          'tgljatuhtempo': '${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}',
+        },
+      );
+
+      print(respone.body);
+      status = 'Sukses';
+      var listD = jsonDecode(respone.body);
+      msg = listD['msg'];
+    }
+
+    ArtSweetAlert.show(
+      barrierDismissible: status == 'Error' ? true : false,
+      context: context,
+      artDialogArgs: ArtDialogArgs(
+          type: status == 'Error'
+              ? ArtSweetAlertType.danger
+              : ArtSweetAlertType.success,
+          title: status,
+          onConfirm: () {
+            status == 'Sukses'
+                ? Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: ((context) => navbar()),
+                    ),
+                    (route) => false)
+                : Navigator.of(context).pop();
+          },
+          text: msg),
     );
   }
 }
